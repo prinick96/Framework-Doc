@@ -1,0 +1,30 @@
+.presentacion {
+  padding: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+.botones {
+  margin-top: 10px;
+}
+
+.documentacion {
+  font-size: 30px;
+}
+.documentacion a {
+  text-decoration: none!important;
+  color: rgb(32, 45, 52);
+}
+.documentacion a:hover {
+  color: rgb(67, 93, 107);
+}
+
+.show {
+  display: block!important;
+}
+
+.hide {
+  display: none!important;
+}
