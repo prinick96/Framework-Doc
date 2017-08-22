@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {# Formato #}
+    {{ base_assets()|raw }}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Documentación oficial de Ocrend Framework, Framework MVC Escrito en PHP 7 ideal para principiantes y expertos en desarrollo web con PHP y PDO.">
+    <meta name="keywords" content="documentacion,framework,php 7,ocrend,curso,español,pdo,herramientas,programación">
+    <meta name="application-name" content="{{ config.site.name }}" />
+    <meta name="author" content="www.ocrend.com" />
+
+    <title>{{ config.site.name }}</title>
+
+    {# Styles #}
+    <link href="views/assets/css/theDocs.all.min.css" rel="stylesheet">
+    <link href="views/assets/css/theDocs.css" rel="stylesheet">
+    <link href="views/assets/css/custom.css" rel="stylesheet">
+    <link href="views/assets/css/skin-ocrend.css" rel="stylesheet">
+
+    {# Fonts #}
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100,300,400,500%7CLato:300,400' rel='stylesheet' type='text/css'>
+
+    {# Favicons #}
+    <link type="image/x-icon" href="views/favicon.ico" rel="shortcut icon" />
+    <link href="views/app/images/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+
+    {# Place this tag in your head or just before your close body tag. #}
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    {# Extras en el header #}
+    {% block appHeader %}
+      {# :) #}
+    {% endblock %}
+  </head>
+<body>
+
+  <header class="site-header">
+    {# Top navbar & branding #}
+    <nav class="navbar navbar-default">
+      <div class="container">
+
+        {# Toggle buttons and brand #}
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+            <span class="glyphicon glyphicon-option-vertical"></span>
+          </button>
+
+          <button type="button" class="navbar-toggle for-sidebar" data-toggle="offcanvas">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <a class="navbar-brand" href="home/"><img src="views/assets/img/logo.png" alt="Ocrend Framework"></a>
+        </div>
+        {# END Toggle buttons and brand #}
+
+        {# Top navbar #}
+        <div id="navbar" class="navbar-collapse collapse" aria-expanded="true" role="banner">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="sobre/">Documentación</a></li>
+            <li><a href="https://github.com/prinick96/Ocrend-Framework/" target="_blank"><i class="fa fa-github"></i> Github</a></li>
+            <li class="hero"><a href="https://github.com/prinick96/Ocrend-Framework/releases" target="_blank"><i class="fa fa-download"></i> Descargar</a></li>
+          </ul>
+        </div>
+        {# END Top navbar #}
+      </div>
+    </nav>
+    {# END Top navbar & branding #}
+  </header>
+
+  {# Cuerpo #}
+  {% block appBody %}
+  {% endblock %}
+
+  
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <a id="scroll-up" href="#"><i class="fa fa-angle-up"></i></a>
+
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <p>Copyright &copy; 2016 - {{ "now"|date('Y') }} <a href="http://ocrend.com" target="_blank">Ocrend Software</a>. Todos los derechos reservados.</p>
+              <a class="github-button" href="https://github.com/prinick96/Ocrend-Framework" data-icon="octicon-eye" data-style="mega" data-count-href="/prinick96/Ocrend-Framework/watchers" data-count-api="/repos/prinick96/Ocrend-Framework#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch prinick96/Ocrend-Framework on GitHub">Watch</a>
+              <a class="github-button" href="https://github.com/prinick96/Ocrend-Framework" data-icon="octicon-star" data-style="mega" data-count-href="/prinick96/Ocrend-Framework/stargazers" data-count-api="/repos/prinick96/Ocrend-Framework#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star prinick96/Ocrend-Framework on GitHub">Star</a>
+              <a class="github-button" href="https://github.com/prinick96/Ocrend-Framework/fork" data-icon="octicon-repo-forked" data-style="mega" data-count-href="/prinick96/Ocrend-Framework/network" data-count-api="/repos/prinick96/Ocrend-Framework#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork prinick96/Ocrend-Framework on GitHub">Fork</a>
+              <a class="github-button" href="https://github.com/prinick96/Ocrend-Framework/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download prinick96/Ocrend-Framework on GitHub">Download</a>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <ul class="footer-menu">
+              <li><a href="https://www.youtube.com/playlist?list=PLDQZoQpLCoUBVbDUxr8cxVX0ik8uh5WBh" target="_blank">Vídeo Docs y Tutoriales</a></li>
+              <li><a href="https://github.com/prinick96/Ocrend-Framework/" target="_blank">Repositorio</a></li>
+              <li><a href="http://ocrend.com/contacto/" target="_blank">Nuestros servicios</a></li>
+              <li>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                  <input type="hidden" name="cmd" value="_s-xclick">
+                  <input type="hidden" name="hosted_button_id" value="TZPT7WZYMW6BW">
+                  <button class="btn btn-info" type="submit" name="submit" alt="Contribuye con lo que desees <3">Donaciones</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- END Footer -->
+
+  <!-- Scripts -->
+  <script src="views/assets/js/theDocs.all.min.js"></script>
+  <script src="views/assets/js/theDocs.js"></script>
+  <script src="views/assets/js/custom.js"></script>
+
+  {# Footer #}
+  {% block appFooter %}
+    {# :) #}
+  {% endblock %}
+
+</body>
+</html>
