@@ -66,7 +66,7 @@ echo $this->template->render('mi_vista/mi_vista', array(
 {{ "En el objeto que estamos instanciando, el metodo test(): {{ objeto.test() }}" }}
 					</code></pre>
 					<p>Si en algún momento queremos escapar HTML, podemos hacer algo cómo</p>
-					<pre><code class="language-php">{{ "{{ '<b>no saldré en negrilla</b>'|e }}" }}</code></pre>
+					<pre><code class="language-php">{{ "{{ '<b>no saldré en negrilla</b>'|e }}"|e }}</code></pre>
 
 					<h3>Herencia y bloques</h3>
 					<p>Se define una vista padre, se puede tomar de ejemplo <code>./app/templates/overall/layout.twig</code>, dicha vista posee adentro tres bloques, <i>appHeader</i>, <i>appBody</i> y <i>appFooter</i></p>
@@ -94,7 +94,7 @@ echo $this->template->render('mi_vista/mi_vista', array(
         <p>Esto es HTML</p>
     </div>
 {% endset %}					
-					" }}</code></pre>
+					"|e }}</code></pre>
 					<p>Definir un arreglo secuencial</p>
 					<pre><code class="language-php">{{ "{% set miArreglo = ['Hola','Mundo'] %}" }}</code></pre>
 					<p>Definir un arreglo asociativo</p>
