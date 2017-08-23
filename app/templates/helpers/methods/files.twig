@@ -4,9 +4,132 @@
 		<div class="row">
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
+				{% set helper = 'Files' %}
 				<header>
-					{{ controller }}
+					<h1>Helper {{ helper }}</h1>
+					<p>Helper con funciones útiles para el tratamiento de archivos.</p>
+					<pre><code class="language-php">use Ocrend\Kernel\Helpers\{{ helper }}</code></pre>
 				</header>
+				<section>
+					<h2>Tabla de métodos</h2>
+					<p>Detalle de métodos, con parámetros y respuestas.</p>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>TWIG</th>
+								<th>Funcionalidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>read_file()</code> : string</td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Devuelve un string con el contenido de un archivo<br />
+									<code>string $dir</code> Directorio del archivo a leer
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>write_file()</code> : int</td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Escribe un string completo en un archivo, si este no existe lo crea y catidad de bytes escritos en el archivo.<br />
+									<code>string $dir</code> Directorio del archivo escribir/crear<br />
+									<code>string $content</code> Contenido a escribir
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>delete_file()</code> : bool</td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Borra un archivo en un directorio y true si borró el fichero, false si no (porque no existía)<br />
+									<code>string $route</code> Ruta del fichero
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>get_file_ext()</code> : string</td>
+								<td class="nowarp">{{ "{{ get_file_ext() }}" }}</td>
+								<td>
+									Devuelve la extensión de un archivo cualquiera.<br />
+									<code>string $file_name</code> Nombre del archivo, da igual si es solo el nombre o la ruta con el nombre
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>is_image()</code> : bool</td>
+								<td class="nowarp">{{ "{{ is_image() }}" }}</td>
+								<td>
+									Dice si un elemento es una imagen o no según su extensión.<br />
+									<code>string $file_name</code> Nombre del archivo, da igual si es solo el nombre o la ruta con el nombre
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>file_size()</code> : int</td>
+								<td class="nowarp">{{ "{{ file_size() }}" }}</td>
+								<td>
+									Devuelve el tamaño en Kbytes de un fichero.<br />
+									<code>string $file</code> Path del fichero
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>date_file()</code> : string</td>
+								<td class="nowarp">{{ "{{ date_file() }}" }}</td>
+								<td>
+									Devuelve la fecha y hora exacta de creación de un fichero.<br />
+									<code>string $file</code> Path del fichero
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>get_files_in_dir()</code> : array</td>
+								<td class="nowarp">{{ "{{ get_files_in_dir() }}" }}</td>
+								<td>
+									Devuelve en un arreglo numérico, la ruta de todos los ficheros en un directorio filtrado por tipos.<br />
+									<code>string $dir</code> Directorio completo<br />
+									<code>string $types = ''</code> tipos de archivos a buscar, por defecto '' significa todos, se puede pasar por ejemplo 'jpg'
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>create_dir()</code> : bool</td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Crea un directorio.<br />
+									<code>string $dir</code> Directorio a crear<br />
+									<code>int $permisos = 0777</code> Permisos del directorio a crear, por defecto es "todos los permisos"
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>rm_dir()</code></td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Elimina de forma recursiva un directorio con su contenido.<br />
+									<code>string $dir</code> Directorio a borrar
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>images_in_dir()</code> : int</td>
+								<td class="nowarp">{{ "{{ images_in_dir() }}" }}</td>
+								<td>
+									Devuelve la cantidad de imágenes contenidas dentro de un directorio.<br />
+									<code>string $dir</code> Directorio en donde están las imagenes
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>move_from_dir()</code></td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Copia todos los ficheros de un directorio a un directorio nuevo, si el directorio nuevo no existe, es creado.
+    								<br />Si en el directorio nuevo existe un archivo con el mismo nombre de alguno en el viejo, este será sobreescrito.<br />
+									<code>string $old_dir</code> Ruta del directorio viejo (de donde se moverán los ficheros)<br />
+									<code>string $new_dir</code> Ruta del directorio nuevo (hacia donde se moverán los ficheros)<br />
+									<code>bool $only_images = false</code> Pasar como <code>TRUE</code>, si sólo quiere pasar imagenes<br />
+									<code>bool $delete_old = false</code> Pasar como <code>TRUE</code>, si se quiere borrar todo el contenido del viejo directorio al pasarse
+								</td>
+							</tr>					
+						</tbody>
+					</table>
+					</div>
+				</section>
 			</article>
 		</div>
 	</main>

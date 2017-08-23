@@ -129,7 +129,7 @@ final class Files extends \Twig_Extension {
     * Devuelve en un arreglo numérico, la ruta de todos los ficheros en un directorio filtrado por tipos
     *
     * @param string $dir: directorio completo
-    * @param strnng $types: tipos de archivos a buscar, por defecto '' significa todos, se puede pasar por ejemplo 'jpg'
+    * @param string $types: tipos de archivos a buscar, por defecto '' significa todos, se puede pasar por ejemplo 'jpg'
     *
     * @return array con las rutas de todos los ficheros encontrados, un array vacío si no encontró ficheros
   */

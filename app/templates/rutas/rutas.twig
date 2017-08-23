@@ -12,6 +12,7 @@
 				<section>
 					<h2>La clase <code>Router</code></h2>
 					<p>Es una clase que implementa la interfaz <code>Ocrend/Kernel/Router/IRouter</code>, se encarga de leer la información de la URL y es la responsable de elegir los controladores a ejecutar.</p>
+					<div class="table-responsive">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -21,7 +22,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>const <code>RULES</code></td>
+								<td class="nowarp">const <code>RULES</code></td>
 								<td>
 									Arreglo que tiene definidas las reglas.
 									<ul>
@@ -37,42 +38,43 @@
 								</td>
 							</tr>
 							<tr>
-								<td>public <code>__construct()</code></td>
+								<td class="nowarp">public <code>__construct()</code></td>
 								<td>Constructor de la clase.</td>
 							</tr>
 							<tr>
-								<td>public <code>setRoute()</code></td>
+								<td class="nowarp">public <code>setRoute()</code></td>
 								<td>Crea una nueva ruta, el orden de creación de una ruta afectará la forma en la que se obtiene desde la URL. Por ejemplo si creamos la ruta <b>/ejemplo</b>, y después la ruta <b>/ejemplo_2</b> para poder obtener la segunda ruta, la URL debe tener la forma <i>controlador/metodo/id/ruta 1/aqui la segunda ruta</i><br />
 									<code>string $index</code> nombre identificador que se le define a la ruta.<br />
 									<code>string $rule = 'none'</code> regla a ocupar para filtrar el valor de la ruta, los valores son aquellos existentes en <code>const RULES</code>
 								</td>
 							</tr>
 							<tr>
-								<td>public <code>getRoute(): mixed</code></td>
+								<td class="nowarp">public <code>getRoute(): mixed</code></td>
 								<td>Obtiene el valor de una ruta según la regla que ha sido definida y si ésta existe. Si el contenido de la ruta no corresponde con la regla, devolverá null.<br />
 									<code>string $index</code> nombre identificador que se le define a la ruta.<br />
 								</td>
 							</tr>
 							<tr>
-								<td>public <code>getController(): string</code></td>
+								<td class="nowarp">public <code>getController(): string</code></td>
 								<td>Obtiene el controlador que se solicita por la URL.<td>
 							</tr>
 							<tr>
-								<td>public <code>getMethod(): string|null</code></td>
+								<td class="nowarp">public <code>getMethod(): string|null</code></td>
 								<td>Obtiene el método que se solicita por la URL.<td>
 							</tr>
 							<tr>
-								<td>public <code>getId(): string|int|null</code></td>
+								<td class="nowarp">public <code>getId(): string|int|null</code></td>
 								<td>Obtiene el id que se solicita por la URL.<br />
 									<code>bool $with_rules = false</code> al establecerse en true, aplica la regla para que el contenido sea sólamente numérico mayor a cero.<br />
 								</td>
 							</tr>
 							<tr>
-								<td>public <code>executeController()</code></td>
+								<td class="nowarp">public <code>executeController()</code></td>
 								<td>Identifica el controlador que debe ejecutarse.<td>
 							</tr>
 						</tbody>
 					</table>
+					</div>
 
 					<h2>Definir reglas nuevas</h2>
 					<p>Siempre podemos definir nuevas reglas a cualquier ruta, éstas reglas se definen una sóla vez y pueden ser utilizadas en cualquier ruta de cualquier controlador en toda la aplicación.</p>
@@ -91,6 +93,7 @@ break;
 
 					<h2>La interfaz <code>IRouter</code></h2>
 					<p>Si se desea reemplazar el router por uno nuevo, debe implementarse la siguiente interfaz para garantizar su correcta integración dentro del framework.</p>
+					<div class="table-responsive">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -118,6 +121,7 @@ break;
 							</tr>
 						</tbody>
 					</table>
+					</div>
 				</section>
 			</article>
 		</div>

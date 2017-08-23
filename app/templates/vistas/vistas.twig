@@ -7,6 +7,7 @@
 				<header>
 					<h1>Vistas</h1>
 					<p>Las vistas son la parte no lógica de la aplicación, todo lo referente con la maquetación web, el frontend de la aplicación. La ubicación de las vistas está en <code>./app/templates/</code> y para mantener cierta coherencia y orden, es recomendable que cada vista esté almacenada en una carpeta con el nombre del controlador principal que la llama.</p>
+					<div class="table-responsive">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -29,6 +30,8 @@
 							</tr>
 						</tbody>
 					</table>
+					</div>
+
 					<p>Ocrend Framework implementa TWIG como motor de plantillas, su sintaxis origina de Jinja y las plantillas Django.</p>	
 					<h3>Algunas características</h3>
 					<ul>
@@ -160,6 +163,7 @@ Sólamente itera elemento, si elemento está definido. (isset)
 " }}</code></pre>
 					<h3>Acceder a variables globales</h3>
 					<p>Por defecto, Ocrend Framework brinda la posibilidad de obtener información de las siguientes variables globales desde las plantillas:</p>
+					<div class="table-responsive">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -194,6 +198,7 @@ Sólamente itera elemento, si elemento está definido. (isset)
 							</tr>
 						</tbody>
 					</table>
+					</div>
 
 					<h3>Añadir variables de forma global</h3>
 					<p>Para añadir variables de forma global a todas las vistas existentes en la aplicación debemos proceder en <code>./Ocrend/Kernel/Controllers/Controllers.php</code> y en el grupo comentado como "# Request global" añadir:</p>

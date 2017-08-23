@@ -43,12 +43,12 @@ final class Functions extends \Twig_Extension {
   /**
     * Calcula el porcentaje de una cantidad
     *
-    * @param int $por: El porcentaje a evaluar, por ejemplo 1, 20, 30 % sin el "%", sólamente el número
-    * @param int $n: El número al cual se le quiere sacar el porcentaje
+    * @param float $por: El porcentaje a evaluar, por ejemplo 1, 20, 30 % sin el "%", sólamente el número
+    * @param float $n: El número al cual se le quiere sacar el porcentaje
     *
-    * @return int con el porcentaje correspondiente
+    * @return float con el porcentaje correspondiente
   */
-  final public function percent(int $por, int $n) : int {
+  final public function percent(float $por, float $n) : float {
     return $n * ($por / 100);
   }
 
@@ -208,7 +208,7 @@ final class Functions extends \Twig_Extension {
    * Obtiene el último día de un mes específico
    *
    * @param int $mes: Mes (1 a 12)
-   * @param int $anio: Año (1975 a 2xxx)
+   * @param int $anio: Año (197 a 2xxx)
    *
    * @return int con el número del día
   */

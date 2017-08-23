@@ -4,9 +4,151 @@
 		<div class="row">
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
+				{% set helper = 'Functions' %}
 				<header>
-					{{ controller }}
+					<h1>Helper {{ helper }}</h1>
+					<p>Funciones reutilizables dentro del sistema, sin categoría definida.</p>
+					<pre><code class="language-php">use Ocrend\Kernel\Helpers\{{ helper }}</code></pre>
+					<p><code>NOTA:</code> Es el único Helper que está disponible para todos los controladores, modelos y vistas sin necesidad de ser declarado su namespace.</p>
 				</header>
+				<section>
+					<h2>Tabla de métodos</h2>
+					<p>Detalle de métodos, con parámetros y respuestas.</p>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>TWIG</th>
+								<th>Funcionalidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp"><code>$this->functions->redir()</code></td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Redirecciona a una URL<br />
+									<code>$url = null</code> Sitio a donde redireccionará, si no se pasa, por defecto se redirecciona a la URL principal del sitio
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp"><code>$this->functions->percent()</code> : float</td>
+								<td class="nowarp">{{ "{{ percent() }}" }}</td>
+								<td>
+									Calcula el porcentaje de una cantidad.<br />
+									<code>float $por</code> El porcentaje a evaluar, por ejemplo 1, 20, 30 % sin el "%", sólamente el número<br />
+									<code>float $n</code> El número al cual se le quiere sacar el porcentaje
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp"><code>$this->functions->convert()</code> : string</td>
+								<td class="nowarp">{{ "{{ convert() }}" }}</td>
+								<td>
+									Da unidades de peso a un integer según sea su tamaño asumida en bytes.<br />
+									<code>int $size</code> Un entero que representa el tamaño a convertir
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>$this->functions->get_gravatar()</code> : string</td>
+								<td class="nowarp">{{ "{{ get_gravatar() }}" }}</td>
+								<td>
+									Retorna la URL de un gravatar, según el email.<br />
+									<code>string $email</code> El email del usuario a extraer el gravatar<br />
+									<code>int $size</code> El tamaño en px del gravatar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>$this->functions->emp()</code> : bool</td>
+								<td class="nowarp">{{ "{{ emp() }}" }}</td>
+								<td>
+									Alias de Empty, más completo, devuelve <code>true</code> si está vacío, <code>false</code> si no, un espacio en blanco cuenta como vacío.<br />
+									<code>mixed $var</code> El email del usuario a extraer el gravatar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>$this->functions->all_full()</code> : bool</td>
+								<td class="nowarp">{{ "{{ all_full() }}" }}</td>
+								<td>
+									Analiza que TODOS los elementos de un arreglo estén llenos.<br />
+									<code>array $array</code> Arreglo a analizar
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp"><code>$this->functions->e()</code> : bool</td>
+								<td class="nowarp">{{ "{{ e() }}" }}</td>
+								<td>
+									Alias de Empty() pero soporta más de un parámetro, devuelve <code>true</code> si al menos uno está vacío, <code>false</code> si todos están llenos.<br />
+									<code>Infinitos parámetros a evaluar</code>
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>$this->functions->fecha()</code> : string</td>
+								<td class="nowarp">{{ "{{ fecha() }}" }}</td>
+								<td>
+									Alias de date() pero devuele días y meses en español.<br />
+									<code>string $format</code> Formato de salida (igual que en date())<br />
+									<code>int $time = 0</code> Tiempo, por defecto es time() (igual que en date())
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp"><code>$this->functions->base_assets()</code> : string</td>
+								<td class="nowarp">{{ "{{ base_assets()|raw }}" }}</td>
+								<td>
+									Devuelve la etiqueta <code>base</code> html adecuada para que los assets carguen desde allí.<br />
+									Se adapta a la configuración del dominio en general.<br />
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp"><code>$this->functions->last_day_month()</code> : int</td>
+								<td class="nowarp">{{ "{{ last_day_month() }}" }}</td>
+								<td>
+									Obtiene el último día de un mes específico.<br />
+									<code>int $mes</code> Mes (1 a 12)<br />
+									<code>int $anio</code>  Año (1970 a 2xxx)
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>$this->functions->cero_izq()</code> : string</td>
+								<td class="nowarp">{{ "{{ cero_izq() }}" }}</td>
+								<td>
+									Pone un cero a la izquierda si la cifra es menor a diez.<br />
+									<code>int $num</code> Cifra
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp"><code>$this->functions->str_to_time()</code> : int|null</td>
+								<td class="nowarp">{{ "{{ str_to_time() }}" }}</td>
+								<td>
+									Devuelve el timestamp de una fecha, y null si su formato es incorrecto.<br />
+									<code>string|null $fecha</code> Fecha con formato dd/mm/yy<br />
+									<code>string $hora = '00:00:00'</code> Hora de inicio (24 hrs)
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>$this->functions->desde_date()</code> : string</td>
+								<td class="nowarp">{{ "{{ str_to_time() }}" }}</td>
+								<td>
+									Devuelve la fecha en format dd/mm/yyy desde el principio de la semana, mes o año actual.<br />
+									<code>int $desde</code> Desde donde
+									<ul>
+										<li><code>1</code> Hoy</li>
+										<li><code>2</code> Ayer</li>
+										<li><code>3</code> Semana</li>
+										<li><code>4</code> Mes</li>
+										<li><code>5</code> Año</li>
+									</ul>
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp"><code>$this->functions->timestamp()</code> : int</td>
+								<td class="nowarp">{{ "{{ timestamp() }}" }}</td>
+								<td>Alias de time()</td>
+							</tr>		
+						</tbody>
+					</table>
+					</div>
+				</section>
 			</article>
 		</div>
 	</main>

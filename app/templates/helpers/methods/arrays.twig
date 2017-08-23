@@ -4,9 +4,83 @@
 		<div class="row">
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
+				{% set helper = 'Arrays' %}
 				<header>
-					{{ controller }}
+					<h1>Helper {{ helper }}</h1>
+					<p>Helper con funciones útiles para el tratamiento de arreglos.</p>
+					<pre><code class="language-php">use Ocrend\Kernel\Helpers\{{ helper }}</code></pre>
 				</header>
+				<section>
+					<h2>Tabla de métodos</h2>
+					<p>Detalle de métodos, con parámetros y respuestas.</p>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>TWIG</th>
+								<th>Funcionalidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>arrays_sum()</code> : array</td>
+								<td class="nowarp">{{ "{{ arrays_sum() }}" }}</td>
+								<td>
+									Suma los contenidos del segundo arreglo en el primer arreglo, en las coincidencias de llaves.<br />
+									Si el primer arreglo está vacío, copiará todo el segundo arreglo en el primero. <br />
+									Si el segundo arreglo está vacío, copiará todo el primer arreglo en el segundo. <br />
+									Si el arreglo $a tiene una estructura distinta a $b, la estructura de $a queda intacta y sólamente, se hará sumas en las posiciones donde haya coincidencias de llaves.<br />
+									El valor null será tomado como cero.<br />
+									<code>array $a</code> Primer arreglo<br />
+									<code>array $b</code> Segundo arreglo
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>get_key_by_index()</code> : int</td>
+								<td class="nowarp">{{ "{{ get_key_by_index() }}" }}</td>
+								<td>
+									Dado un índice asociativo y un arreglo, devuelve el índice numérico correspondiente al asociativo.<br />
+									<code>string $index</code> Índice asociativo del arreglo<br />
+									<code>array $a</code> Arreglo a evaluar
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>unique_array()</code> : array</td>
+								<td class="nowarp">{{ "{{ unique_array() }}" }}</td>
+								<td>
+									Elimina todos los elementos repetidos de un array.<br />
+									<code>array $a</code> Índice asociativo del arreglo
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>is_assoc()</code> : bool</td>
+								<td class="nowarp">{{ "{{ is_assoc() }}" }}</td>
+								<td>
+									Evalúa si un arreglo es de tipo asociativo o no.<br />
+									<code>array $a</code> Arreglo a evaluar
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>is_numeric_array()</code> : bool</td>
+								<td class="nowarp">{{ "{{ is_numeric_array() }}" }}</td>
+								<td>
+									Evalúa si un arreglo es secuencial (de índices numéricos).<br />
+									<code>array $a</code> Arreglo a evaluar
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>array_random_element()</code> : bool</td>
+								<td class="nowarp">{{ "{{ array_random_element() }}" }}</td>
+								<td>
+									Obtiene de forma random un elemento de un arreglo.<br />
+									<code>array $a</code> Arreglo a evaluar
+								</td>
+							</tr>							
+						</tbody>
+					</table>
+					</div>
+				</section>
 			</article>
 		</div>
 	</main>

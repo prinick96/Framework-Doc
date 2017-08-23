@@ -46,6 +46,7 @@ class ejemploController extends Controllers implements IControllers {
 				
 					<h2>La clase <code>Controllers</code></h2>
 					<p>La clase Controllers está ubicada en el namespace <code>Ocrend/Kernel/Controllers/Controllers</code>. Es una clase abstracta, ésta existe sólo para ser heredada por los controladores de nuestro sitio y distribuir de forma global funciones, propiedades y métodos entre todas las páginas (controladores) que tenga nuestra aplicación.</p>
+					<div class="table-responsive">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -55,23 +56,23 @@ class ejemploController extends Controllers implements IControllers {
 						</thead>
 						<tbody>
 							<tr>
-								<td>protected <code>$template</code></td>
+								<td class="nowarp">protected <code>$template</code></td>
 								<td>Objeto de tipo <a href="https://twig.symfony.com/api/2.x/Twig_Environment.html" target="_blank"><code>Twig_Environment</code></a> cuya finalidad es darnos soporte para el uso de plantillas TWIG y manipular las vistas desde los controladores.</td>
 							</tr>
 							<tr>
-								<td>protected <code>$isset_id</code></td>
+								<td class="nowarp">protected <code>$isset_id</code></td>
 								<td>Booleano que se establece en <code>true</code> cuando la ruta <i>/id</i> de la URL está definida como un número entero mayor a cero, y <code>false</code> cuando no cumple con dicha condición.</td>
 							</tr>
 							<tr>
-								<td>protected <code>$method</code></td>
+								<td class="nowarp">protected <code>$method</code></td>
 								<td>Contiene la información que se recibe a través de la ruta <i>/method</i> siempre y cuando ésta esté definida, de lo contrario será <code>null</code></td>
 							</tr>
 							<tr>
-								<td>protected <code>$functions</code></td>
+								<td class="nowarp">protected <code>$functions</code></td>
 								<td>Contiene la instancia del Helper <a href="helpers/functions/" target="_blank"><code>Functions</code></a></td>
 							</tr>
 							<tr>
-								<td>protected <code>__construct()</code></td>
+								<td class="nowarp">protected <code>__construct()</code></td>
 								<td>
 									Constructor inicializador de la clase.<br />
 									<code>IRouter $router</code> interfaz del enrutador para obtener información sobre la url.<br />
@@ -85,9 +86,11 @@ class ejemploController extends Controllers implements IControllers {
 							</tr>
 						</tbody>
 					</table>
+					</div>
 
 					<h2>La interfaz <code>IControllers</code></h2>
 					<p>La implementación de ésta interfaz es para garantizar el correcto funcionamiento del controlador.</p>
+					<div class="table-responsive">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -100,6 +103,7 @@ class ejemploController extends Controllers implements IControllers {
 							</tr>
 						</tbody>
 					</table>
+					</div>
 				</section>
 			</article>
 		</div>

@@ -4,9 +4,56 @@
 		<div class="row">
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
+				{% set helper = 'Emails' %}
 				<header>
-					{{ controller }}
+					<h1>Helper {{ helper }}</h1>
+					<p>Helper con funciones útiles para trabajar con evío de correos mediante PHPMailer.</p>
+					<pre><code class="language-php">use Ocrend\Kernel\Helpers\{{ helper }}</code></pre>
 				</header>
+				<section>
+					<h2>Tabla de métodos</h2>
+					<p>Detalle de métodos, con parámetros y respuestas.</p>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>TWIG</th>
+								<th>Funcionalidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>send_mail()</code> : bool|string </td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Envía un correo electrónico utilizando PHPMailer, devuelve <code>true</code> cuando el mensaje ha sido enviado y un <code>string</code> con el error cuando no fué enviado.<br />
+									<code>array $dest</code> Arreglo de destinatarios
+									<ul>
+										<li><code>array('email@destinatario' => 'nombre destinatario', ...)</code></li>
+									</ul>
+									<code>string $HTML</code> Contenido en HTML del email<br />
+									<code>string $titulo</code> Asunto del email<br />
+									<code>bool $is_smtp = true</code> Define si se hará la conexión a través de SMTP o no<br />
+									<code>array $adj = []</code> Arreglo con direccion local de los adjuntos a enviar
+									<ul>
+										<li><code>array('ruta/archivo/1', ...)</code></li>
+									</ul>
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>plantilla()</code> : string </td>
+								<td class="nowarp">NO DISPONIBLE</td>
+								<td>
+									Plantilla estándar que muestra de forma amigable el texto, utiliza bootstrap.<br />
+									<code>string $content</code> Cadena de texto en HTML, puede ser en bootstrap
+								</td>
+							</tr>						
+						</tbody>
+					</table>
+					</div>
+					<p><code>NOTA:</code> los datos de configuración SMTP se encuentran en el arreglo <code>phpmailer/</code> en <code>Ocrend.ini.yml</code></p>
+				</section>
 			</article>
 		</div>
 	</main>

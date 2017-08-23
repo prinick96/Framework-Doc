@@ -30,9 +30,6 @@ class helpersController extends Controllers implements IControllers {
             case 'arrays':
                 echo $this->template->render('helpers/methods/arrays');
             break;
-            case 'bootstrap':
-                echo $this->template->render('helpers/methods/bootstrap');
-            break;
             case 'emails':
                 echo $this->template->render('helpers/methods/emails');
             break;

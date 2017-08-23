@@ -4,9 +4,37 @@
 		<div class="row">
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
+				{% set helper = 'Strings' %}
 				<header>
-					{{ controller }}
+					<h1>Helper {{ helper }}</h1>
+					<p>Helper con funciones útiles para el tratamiento de arreglos.</p>
+					<pre><code class="language-php">use Ocrend\Kernel\Helpers\{{ helper }}</code></pre>
 				</header>
+				<section>
+					<h2>Tabla de métodos</h2>
+					<p>Detalle de métodos, con parámetros y respuestas.</p>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>TWIG</th>
+								<th>Funcionalidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>metodo()</code></td>
+								<td class="nowarp">{{ "{{ metodo() }}" }}</td>
+								<td>
+									Explicación de la función<br />
+									<code>tipo $parámetro</code> hace x
+								</td>
+							</tr>						
+						</tbody>
+					</table>
+					</div>
+				</section>
 			</article>
 		</div>
 	</main>
