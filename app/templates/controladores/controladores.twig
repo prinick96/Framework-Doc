@@ -5,8 +5,101 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Controladores</h1>
 				</header>
+				<section>
+					<h2>Lanzador, moverse entre páginas</h2>
+					<p>En Ocrend Framework, los controladores son la forma de crear nuevas "páginas" a las cuáles se podrá acceder desde la URL.</p>
+					<pre><code class="language-http">http://localhost/Ocrend-Framework/controlador/</code></pre>
+					<p>Si hacemos eso, probablemente caemos en una página de <strong>404</strong> personalizada, sin embargo al colocar <strong>home/</strong> veremos la página principal. Se puede notar que la forma de moverse entre páginas es utilizando URL's Amigables.</p>
+					<p>Existe un lanzador que se encarga de accionar el controlador que se solicita por la URL a través de un enrutador.</p>
+					<p>El lanzador interpreta la petición en la URL y trata de buscar la coincidencia de un controlador en la carpeta <code>./app/controllers/</code>, si lo encuentra lo ejecuta y si no hay coincidencias ejecutará siempre <b>errorController</b>.</p>
+				
+					<h2>Creación de un controlador</h2>
+					<p>Todos los controladores de nuestra aplicación deben crearse en la ruta <code>./app/controllers</code> y el formato del nombre debe ser <b><i>nombre</i>Controller.php</b>, el nombre del archivo debe ser exactamente el mismo que el de la clase contenedora.</p>
+					<p>Para que un controlador sea 100% funcional, debe herederar de la clase padre <code>Ocrend/Kernel/Controllers/Controllers</code> e implementar la interfaz <code>Ocrend/Kernel/Controllers/IControllers</code></p>
+					<p>Vamos a crear el controlador <b>ejemplo</b>, para ello debemos crear el fichero<code>./app/controllers/ejemploController.php</code></p>
+					<pre><code class="language-php">
+namespace app\controllers;
+
+use app\models as Model;
+use Ocrend\Kernel\Router\IRouter;
+use Ocrend\Kernel\Controllers\Controllers;
+use Ocrend\Kernel\Controllers\IControllers;
+  
+class ejemploController extends Controllers implements IControllers {
+
+    public function __construct(IRouter $router) {
+        parent::__construct($router);   
+        echo 'Soy un controlador de ejemplo';
+    }
+
+}					
+					</code></pre>
+					<p>A continuación, si visitamos <b>http://localhost/Ocrend-Framework/ejemplo/</b> debe aparecer el mensaje "soy un controlador de ejemplo" en la pantalla de nuestro navegador web.</p>
+				
+					<h2>Creación de un controlador con el generador</h2>
+					<p>Otra forma de crear un controlador, es usando el generador de código el cual sin falla alguna escribirá todo el código necesario para que nuestro controlador quede funcional.</p>
+					<pre><code class="language-bash">php gen.php app:c Prueba</code></pre>
+					<p>La consola deberá indicar si se creó el controlador con éxito, en caso de que ya exista un controlador con ese nombre, no será creado</p>
+				
+					<h2>La clase Controllers</h2>
+					<p>La clase Controllers está ubicada en el namespace <code>Ocrend/Kernel/Controllers/Controllers</code>. Es una clase abstracta, ésta existe sólo para ser heredada por los controladores de nuestro sitio y distribuir de forma global funciones, propiedades y métodos entre todas las páginas (controladores) que tenga nuestra aplicación.</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método / Atributo</th>
+								<th>Función</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>protected <code>$template</code></td>
+								<td>Objeto de tipo <a href="https://twig.symfony.com/api/2.x/Twig_Environment.html" target="_blank"><code>Twig_Environment</code></a> cuya finalidad es darnos soporte para el uso de plantillas TWIG y manipular las vistas desde los controladores.</td>
+							</tr>
+							<tr>
+								<td>protected <code>$isset_id</code></td>
+								<td>Booleano que se establece en <code>true</code> cuando la ruta <i>/id</i> de la URL está definida como un número entero mayor a cero, y <code>false</code> cuando no cumple con dicha condición.</td>
+							</tr>
+							<tr>
+								<td>protected <code>$method</code></td>
+								<td>Contiene la información que se recibe a través de la ruta <i>/method</i> siempre y cuando ésta esté definida, de lo contrario será <code>null</code></td>
+							</tr>
+							<tr>
+								<td>protected <code>$functions</code></td>
+								<td>Contiene la instancia del Helper <a href="helpers/functions/" target="_blank"><code>Functions</code></a></td>
+							</tr>
+							<tr>
+								<td>protected <code>__construct()</code></td>
+								<td>
+									Constructor inicializador de la clase.<br />
+									<code>IRouter $router</code> interfaz del enrutador para obtener información sobre la url.<br />
+									<code>$configController = null</code> arreglo de configuración sobre el controlador.
+									<ul>
+										<li><code>'twig_cache_reload' => Booleano</code> Configura el autoreload del caché de TWIG</li>
+										<li><code>'users_logged' => Booleano</code> Configura el controlador para solo ser visto por usuarios logeados</li>
+										<li><code>'users_not_logged' => Booleano</code> Configura el controlador para solo ser visto por usuarios no logeados</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h2>La interfaz IControllers</h2>
+					<p>La implementación de ésta interfaz es para garantizar el correcto funcionamiento del controlador.</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método Necesario</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>public <code>_construct(IRouter $router)</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
 			</article>
 		</div>
 	</main>

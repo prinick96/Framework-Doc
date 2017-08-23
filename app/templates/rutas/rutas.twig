@@ -5,8 +5,120 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Enrutador (Url's amigables)</h1>
+					<p>Las rutas son la solución para las URL's Amigables que ofrece Ocrend Framework, es importante saber que éstas no se manejan en el sistema como variables <code>$_GET</code> de modo que el acceso y control a ellas debe realizarse mediante un enrutador que implemente la interfaz <code>Ocrend/Kernel/Router/IRouter</code></p>
+					<center><img src="views/app/images/enrutador_flujo.png" title="Flujo de datos desde el router y un controlador" alt="Flujo de datos desde el router y un controlador" /></center>
 				</header>
+				<section>
+					<h2>La clase Router</h2>
+					<p>Es una clase que implementa la interfaz <code>Ocrend/Kernel/Router/IRouter</code>, se encarga de leer la información de la URL y es la responsable de elegir los controladores a ejecutar.</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método / Atributo</th>
+								<th>Función</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>const <code>RULES</code></td>
+								<td>
+									Arreglo que tiene definidas las reglas.
+									<ul>
+										<li><code>none</code> Ninguna regla</li>
+										<li><code>letters</code> Sólamente letras</li>
+										<li><code>alphanumeric</code> Sólamente letras y números</li>
+										<li><code>url</code> Sólamente letras, números y el caracter "-"</li>
+										<li><code>integer</code> Sólamente números enteros</li>
+										<li><code>integer_positive</code> Solamente números enteros positivos</li>
+										<li><code>float</code> Sólamente números flotantes</li>
+										<li><code>float_positive</code> Sólamente números flotantes positivos</li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td>public <code>__construct()</code></td>
+								<td>Constructor de la clase.</td>
+							</tr>
+							<tr>
+								<td>public <code>setRoute()</code></td>
+								<td>Crea una nueva ruta, el orden de creación de una ruta afectará la forma en la que se obtiene desde la URL. Por ejemplo si creamos la ruta <b>/ejemplo</b>, y después la ruta <b>/ejemplo_2</b> para poder obtener la segunda ruta, la URL debe tener la forma <i>controlador/metodo/id/ruta 1/aqui la segunda ruta</i><br />
+									<code>string $index</code> nombre identificador que se le define a la ruta.<br />
+									<code>string $rule = 'none'</code> regla a ocupar para filtrar el valor de la ruta, los valores son aquellos existentes en <code>const RULES</code>
+								</td>
+							</tr>
+							<tr>
+								<td>public <code>getRoute(): mixed</code></td>
+								<td>Obtiene el valor de una ruta según la regla que ha sido definida y si ésta existe. Si el contenido de la ruta no corresponde con la regla, devolverá null.<br />
+									<code>string $index</code> nombre identificador que se le define a la ruta.<br />
+								</td>
+							</tr>
+							<tr>
+								<td>public <code>getController(): string</code></td>
+								<td>Obtiene el controlador que se solicita por la URL.<td>
+							</tr>
+							<tr>
+								<td>public <code>getMethod(): string|null</code></td>
+								<td>Obtiene el método que se solicita por la URL.<td>
+							</tr>
+							<tr>
+								<td>public <code>getId(): string|int|null</code></td>
+								<td>Obtiene el id que se solicita por la URL.<br />
+									<code>bool $with_rules = false</code> al establecerse en true, aplica la regla para que el contenido sea sólamente numérico mayor a cero.<br />
+								</td>
+							</tr>
+							<tr>
+								<td>public <code>executeController()</code></td>
+								<td>Identifica el controlador que debe ejecutarse.<td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h2>Definir reglas nuevas</h2>
+					<p>Siempre podemos definir nuevas reglas a cualquier ruta, éstas reglas se definen una sóla vez y pueden ser utilizadas en cualquier ruta de cualquier controlador en toda la aplicación.</p>
+					<p>Para ello debemos abrir el archivo <code>./Code/Kernel/Router/Router.php</code> y localizar la constante <code>RULES</code> donde debemos añadir dentro del arreglo:</p>
+					<pre><code class="lang-php">'nombre_de_mi_regla' # Un comentario descriptivo de qué hace</code></pre>
+					<p>Luego se debe localizar el método <code>getRoute()</code> e implementar dentro del <code>switch</code> un nuevo <code>case</code></p>
+					<pre><code class="lang-php">
+case 'nombre_de_mi_regla':
+    if(condición que debe cumpliar el contenido guardado en $ruta) {
+		return $ruta;
+	}
+
+	return null;
+break;				
+					</code></pre>
+
+					<h2>La interfaz IRouter</h2>
+					<p>Si se desea reemplazar el router por uno nuevo, debe implementarse la siguiente interfaz para garantizar su correcta integración dentro del framework.</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método Necesario</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>public <code>setRoute(string $index, string $rule)</code></td>
+							</tr>
+							<tr>
+								<td>public <code>getRoute(string $index)</code></td>
+							</tr>
+							<tr>
+								<td>public <code>getController()</code></td>
+							</tr>
+							<tr>
+								<td>public <code>getMethod()</code></td>
+							</tr>
+							<tr>
+								<td>public <code>getId(bool $with_rules)</code></td>
+							</tr>
+							<tr>
+								<td>public <code>executeController()</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
 			</article>
 		</div>
 	</main>
