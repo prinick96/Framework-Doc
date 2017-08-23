@@ -5,8 +5,223 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Vistas</h1>
+					<p>Las vistas son la parte no lógica de la aplicación, todo lo referente con la maquetación web, el frontend de la aplicación. La ubicación de las vistas está en <code>./app/templates/</code> y para mantener cierta coherencia y orden, es recomendable que cada vista esté almacenada en una carpeta con el nombre del controlador principal que la llama.</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Ruta</th>
+								<th>Finalidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>app/templates/</code></td>
+								<td>Plantillas en general.</td>
+							</tr>
+							<tr>
+								<td><code>app/templates/.cache/</code></td>
+								<td>Directorio de caché destinado a las vistas de twig renderizadas ya previamente, es de vital importancia la existencia de ésta carpeta y que posea permisos de escritura y lectura.</td>
+							</tr>
+							<tr>
+								<td><code>app/templates/overall/layout.twig</code></td>
+								<td>Capa principal, que contiene todos los elementos reutilizables como plantilla del diseño web. Todas las vistas, por lo general heredan de ésta vista.</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>Ocrend Framework implementa TWIG como motor de plantillas, su sintaxis origina de Jinja y las plantillas Django.</p>	
+					<h3>Algunas características</h3>
+					<ul>
+						<li>Twig compila las plantillas hasta el código PHP optimizado. La sobrecarga en comparación con el código PHP normal se redujo al mínimo.</li>
+						<li>Twig tiene un modo de sandbox para evaluar el código de plantilla no confiable. Esto permite que Twig se utilice como un lenguaje de plantilla para aplicaciones en las que los usuarios puedan modificar el diseño de la plantilla.</li>
+						<li>Twig es alimentado por un lexer y parser flexible. Esto permite al desarrollador definir sus propias etiquetas y filtros personalizados y crear su propia DSL.</li>
+					</ul>
 				</header>
+				<section>
+					<h3>Crear una vista</h3>
+					<p>Simplemente debemos crear un archivo en la ruta <code>./app/templates/mi_vista/mi_vista.twig</code> y su contenido puede ser HTML, CSS ó JavaScript además de las etiquetas propias que brinda TWIG.</p>
+					<p><code>NOTA:</code> el nombre de la carpeta no debe ser exactamente el mismo del archivo.</p>	
+
+					<h3>Pasar información hacia las vistas</h3>
+					<p>Para pasar información hacia una vista, al momento de renderizar la vista desde el controlador, pasamos un arreglo como parámetro con toda la información que querramos poner a disposición de twig.</p>
+					<pre><code class="language-php">
+echo $this->template->render('mi_vista/mi_vista', array(
+    'mi_variable' => 'Hola Mundo, hoy es ' . date('d/m/Y', time()),
+    'un_arreglo' => array('a' => 1, 'b' => 2),
+    'entero' => 1,
+    'booleana' => true,
+    'flotante' => 1.5,
+    # Para que esta instrucción no de error, obviamente debe existir Miclase en algún sitio
+    'objeto' => new Miclase
+));					
+					</code></pre>
+					<p>Se puede hacer lo siguiente:</p>
+					<pre><code class="language-php">{{ "{{ mi_variable }}" }}</code></pre>
+					<pre><code class="language-php">En el arreglo {{ "{{ un_arreglo.a }} ó también {{ un_arreglo['a'] }}" }}</code></pre>
+					<pre><code class="language-php">Uno mas dos es {{ "{{ entero + 2 }}" }}</code></pre>
+					<p>Simplemente usamos el operador ternario sobre la variable</p>
+					<pre><code class="language-php">{{ "¿Es verdad?: {{ booleana ? 'Sí' : 'No' }}" }}</code></pre>
+					<pre><code class="language-php">{{ "Uno coma cinco por 10 es {{ flotante * 10 }}" }}</code></pre>
+					<pre><code class="language-php">	
+{{ "En el objeto que estamos instanciando, el metodo test(): {{ objeto.test() }}" }}
+					</code></pre>
+					<p>Si en algún momento queremos escapar HTML, podemos hacer algo cómo</p>
+					<pre><code class="language-php">{{ "{{ '<b>no saldré en negrilla</b>'|e }}" }}</code></pre>
+
+					<h3>Herencia y bloques</h3>
+					<p>Se define una vista padre, se puede tomar de ejemplo <code>./app/templates/overall/layout.twig</code>, dicha vista posee adentro tres bloques, <i>appHeader</i>, <i>appBody</i> y <i>appFooter</i></p>
+					<p>El concepto es sencillo, cualquier vista que realice la herencia:</p>
+					<pre><code class="language-php">{{ "{% extends 'overall/layout' %}" }}</code></pre>
+					<p>Renderizará todo el HTML, CSS y JavaScript escrito en <code>./app/templates/overall/layout.twig</code> y, en la plantilla que hace la herencia, se sobreescribirá el valor de los bloques, por el que se defina en la nueva plantilla</p>
+					<pre><code class="language-php">
+{{ "{% extends 'overall/layout' %}" }}
+{{ "{% block appBody %}" }}
+	Ésto será reemplazado en layout.twig, justamente donde éste tenga definido el bloque appBody y luego se renderizará todo en conjunto.
+{{ "{% endblock %}" }}
+					</code></pre>
+
+					<h3>Incluir vistas dentro de vistas</h3>
+					<p>Debemos proceder a escribir en el punto exacto donde necesitamos que se renderice luego la vista incluída:</p>
+					<pre><code class="language-php">{{ "{% include 'direccion/de/la/vista' %}" }}</code></pre>
+
+					<h3>Definir elementos dentro de la plantilla</h3>
+					<p>Definir una variable</p>
+					<pre><code class="language-php">{{ "{% set miVariable = 1 %}" }}</code></pre>
+					<p>Para definir una variable que contenga una sección de código entero</p>
+					<pre><code class="language-php">{{ "
+{% set variable %}
+    <div>
+        <p>Esto es HTML</p>
+    </div>
+{% endset %}					
+					" }}</code></pre>
+					<p>Definir un arreglo secuencial</p>
+					<pre><code class="language-php">{{ "{% set miArreglo = ['Hola','Mundo'] %}" }}</code></pre>
+					<p>Definir un arreglo asociativo</p>
+					<pre><code class="language-php">{{ "{% set miArreglo = {'indice':'valor'} %}" }}</code></pre>
+					<p>Estructura selectiva IF</p>
+<pre><code class="language-php">{{ "
+{% if true %}
+    Hola es verdadero
+{% elseif (1 + 1) == 2 %}
+	Esto también es verdadero
+{% else %}
+    Hola es falso
+{% endif %}
+" }}</code></pre>
+					<p>Operadores lógicos</p>
+<pre><code class="language-php">{{ "
+Y condicional: {{ A and B }} 
+O condicional: {{ A or B }}
+Negación: {{ not A }}
+Xor Condicional: {{ (A or B) and not (A and B) }} 
+" }}</code></pre>
+					<p>Comparadores lógicos</p>
+<pre><code class="language-php">{{ "
+{{ A == B }} A igual que B
+{{ A != B }} A distinto que B
+{{ A < B }} A menor que B
+{{ A > B }} A mayor que B
+{{ A <= B }} A menor o igual que B
+{{ A >= B }} A mayor o igual que B
+" }}</code></pre>
+					<p>Estructuras Repetitivas</p>
+<pre><code class="language-php">{{ "
+For desde el 0 al 10, repite 11 veces
+{% for i in 0..10 %}
+    {{ i }}<br />
+{% endfor %}
+" }}</code></pre>
+<pre><code class="language-php">{{ "
+Foreach, iterando sobre el arreglo llamado \"elemento\".
+{% for e in elemento %}
+    {{ e }}<br />
+{% endfor %}
+" }}</code></pre>
+<pre><code class="language-php">{{ "
+Foreach, iterando sobre el arreglo llamado \"elemento\" y mostrando sus índices.
+{% for key, e in elemento %}
+    La key es {{ key }} y el valor es {{ e }}
+{% endfor %}
+" }}</code></pre>
+<pre><code class="language-php">{{ "
+For con else
+{% for e in elemento %}
+    {{ e }}<br />
+{% else %}
+    <p>No hay nada en el arreglo elemento.</p>
+{% endfor %}
+" }}</code></pre>
+<pre><code class="language-php">{{ "
+Sólamente itera elemento, si elemento está definido. (isset)
+{% for e in elemento if elemento is defined %}
+    {{ e }}<br />
+{% endif %}
+" }}</code></pre>
+					<h3>Acceder a variables globales</h3>
+					<p>Por defecto, Ocrend Framework brinda la posibilidad de obtener información de las siguientes variables globales desde las plantillas:</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>TWIG</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>$_GET['indice']</code></td>
+								<td>{{ "{{ get.indice }}" }}</td>
+							</tr>
+							<tr>
+								<td><code>$_SERVER['indice']</code></td>
+								<td>{{ "{{ server.indice }}" }}</td>
+							</tr>
+							<tr>
+								<td><code>$_SESSION['indice']</code></td>
+								<td>{{ "{{ session.indice }}" }}</td>
+							</tr>
+							<tr>
+								<td><code>$config['indice']</code> en Ocrend.ini.yml</td>
+								<td>{{ "{{ config.indice }}" }}</td>
+							</tr>
+							<tr>
+								<td>private <code>$this->is_logged</code></td>
+								<td>{{ "{{ is_logged }}" }} para saber si un usuario está logeado</td>
+							</tr>
+							<tr>
+								<td>protected <code>$this->user['atributo']</code></td>
+								<td>{{ "{{ owner_user.propiedad }}" }} atributo del usuario conectado</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3>Añadir variables de forma global</h3>
+					<p>Para añadir variables de forma global a todas las vistas existentes en la aplicación debemos proceder en <code>./Ocrend/Kernel/Controllers/Controllers.php</code> y en el grupo comentado como "# Request global" añadir:</p>
+					<pre><code class="language-php">$this->template->addGlobal('mi_variable_global', 'contenido');</code></pre>
+					<p><code>NOTA:</code> si realizamos lo mismo, pero en un controlador antes de renderiza cualquier vista, se define dicha variable global sólamente entre las vistas que sean llamadas desde dicho controlador.</p>
+
+					<h3>Utilizar helpers en las vistas</h3>
+					<p>En el controlador que lanza la vista, debe existir el namespace del helper correspondiente y luego se procede <b>antes de renderizar la vista en el controlador</b>:</p>
+					<pre><code class="language-php">
+$this->template->addExtension(new NombreDelHelper);
+					</pre></code>
+					<p><code>NOTA:</code> para que el helper pueda funcionar correctamente, éste debe ser compatible con Twig, la forma de revisar ello es viendo si éste hereda de <code>Twig_Extension</code></p>
+
+					<h3>La importancia de {{ "{{ base_assets()|raw }}" }}</h3>
+					<p>Para que los estilos, imágenes y scripts de la aplicación carguen correctamente y el navegador no indexe mal las rutas por culpa de las URL amigables, es de <b>suma importancia</b> hacer el llamado a dicha función dentro de las etiquetas <code>head</code></p>
+					<pre><code class="language-php">
+&lt;head&gt;
+{{ "{{ base_assets()|raw }}" }}
+&lt;/head&gt;					
+					</code></pre>
+
+					<h3>Crear vista usando el generador</h3>
+					<p>Simplemente con escribir el comando</p>
+					<pre><code class="language-bash">php gen.php app:v Nombre</code></pre>	
+
+					<h3>Más acerca de Twig</h3>
+					<p>Para una documentación extensa acerca del uso de TWIG como motor de plantillas, podemos acudir a una <a href="http://gitnacho.github.io/Twig/" target="_blank">documentación en español</a> ó una <a href="https://www.youtube.com/playlist?list=PLDQZoQpLCoUDvafL7aERl1Mt4Xd_PPulK" target="_blank">lista de reproducción en YouTube</a> que presenta el manejo de éste motor bajo Ocrend Framework.</p>
+				</section>
 			</article>
 		</div>
 	</main>
