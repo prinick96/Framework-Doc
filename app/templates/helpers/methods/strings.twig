@@ -7,7 +7,7 @@
 				{% set helper = 'Strings' %}
 				<header>
 					<h1>Helper {{ helper }}</h1>
-					<p>Helper con funciones útiles para el tratamiento de arreglos.</p>
+					<p>Helper con funciones útiles para tratar strings.</p>
 					<pre><code class="language-php">use Ocrend\Kernel\Helpers\{{ helper }}</code></pre>
 				</header>
 				<section>
@@ -24,13 +24,146 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="nowarp">{{ helper }}::<code>metodo()</code></td>
-								<td class="nowarp">{{ "{{ metodo() }}" }}</td>
+								<td class="nowarp">{{ helper }}::<code>amigable_time()</code> : string</td>
+								<td class="nowarp">{{ "{{ amigable_time() }}" }}</td>
 								<td>
-									Explicación de la función<br />
-									<code>tipo $parámetro</code> hace x
+									Convierte un tiempo dado al formato hace 1 minuto, hace 2 horas, hace 1 año ...<br />
+									<code>int $from</code> Tiempo en segundo desde donde se desea contar<br />
+									<code>int $to = 0</code> Tiempo en segundo hasta donde se desea contar, si no se pasa por defecto es time()
 								</td>
-							</tr>						
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>chash()</code> : bool</td>
+								<td class="nowarp">{{ "{{ chash() }}" }}</td>
+								<td>
+									Compara un string hash con un string sin hash, si el string sin hash al encriptar posee la misma llave que hash, son iguales<br />
+									<code>string $hash</code> Hash<br />
+									<code>string $s2</code> Cadena de texto a comparar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>hash()</code> : string</td>
+								<td class="nowarp">{{ "{{ hash() }}" }}</td>
+								<td>
+									Compara un string hash con un string sin hash, si el string sin hash al encriptar posee la misma llave que hash, son iguales<br />
+									<code>string $cadena</code> Cadena de texto a encriptar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>date_difference()</code> : int</td>
+								<td class="nowarp">{{ "{{ date_difference() }}" }}</td>
+								<td>
+									Calcula el tiempo (timestamp) de diferencia entre dos fechas<br />
+									<code>string $ini</code> Cadena de texto a encriptar<br />
+									<code>string $fin</code> Fecha mayor con el formato d-m-Y ó d/m/Y
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>calculate_age()</code> : int</td>
+								<td class="nowarp">{{ "{{ calculate_age() }}" }}</td>
+								<td>
+									Calcula la edad de una persona segun la fecha de nacimiento<br />
+									<code>string $cumple</code> Fecha de nacimiento con el formato d-m-Y ó d/m/Y
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>days_of_month()</code> : int</td>
+								<td class="nowarp">{{ "{{ days_of_month() }}" }}</td>
+								<td>
+									Calcula cuántos días tiene el mes actual
+								</td>
+							</tr>		
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>is_email()</code> : bool</td>
+								<td class="nowarp">{{ "{{ is_email() }}" }}</td>
+								<td>
+									Verifica si una cadena de texto tiene forma de email<br />
+									<code>string $address</code> Cadena de texto con el email
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>remove_spaces()</code> : string</td>
+								<td class="nowarp">{{ "{{ remove_spaces() }}" }}</td>
+								<td>
+									Remueve todos los espacios en blanco de un string<br />
+									<code>string $s</code> Cadena de texto a convertir
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>alphanumeric()</code> : bool</td>
+								<td class="nowarp">{{ "{{ alphanumeric() }}" }}</td>
+								<td>
+									Analiza si una cadena de texto es alfanumérica<br />
+									<code>string $s</code> Cadena de texto a verificar
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>only_letters()</code> : bool</td>
+								<td class="nowarp">{{ "{{ only_letters() }}" }}</td>
+								<td>
+									Analiza si una cadena de texto verificando si sólamente tiene letras<br />
+									<code>string $s</code> Cadena de texto a verificar
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>letters_and_numbers()</code> : bool</td>
+								<td class="nowarp">{{ "{{ letters_and_numbers() }}" }}</td>
+								<td>
+									Analiza si una cadena de texto contiene sólamente letras y números<br />
+									<code>string $s</code> Cadena de texto a verificar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>url_amigable()</code> : string</td>
+								<td class="nowarp">{{ "{{ url_amigable() }}" }}</td>
+								<td>
+									 Convierte una expresión de texto, a una compatible con url amigables<br />
+									<code>string $url</code> Cadena de texto a convertir
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>bbcode()</code> : string</td>
+								<td class="nowarp">{{ "{{ bbcode()|raw }}" }}</td>
+								<td>
+									 Convierte código BBCode en su equivalente HTML<br />
+									<code>string $string</code> Código con formato BBCode
+								</td>
+							</tr>	
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>begin_with()</code> : bool</td>
+								<td class="nowarp">{{ "{{ begin_with() }}" }}</td>
+								<td>
+									 Dice si un string comienza con un caracter especificado<br />
+									<code>string $sx</code> Caracter de inicio<br />
+									<code>string $str</code> String a evaluar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>end_with()</code> : bool</td>
+								<td class="nowarp">{{ "{{ end_with() }}" }}</td>
+								<td>
+									 Dice si un string termina con una caracter especificado<br />
+									<code>string $sx</code> Caracter del final<br />
+									<code>string $str</code> String a evaluar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>contain()</code> : bool</td>
+								<td class="nowarp">{{ "{{ contain() }}" }}</td>
+								<td>
+									Ver si un string está contenido en otro<br />
+									<code>string $sx</code> String contenido en $str<br />
+									<code>string $str</code> String a evaluar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">{{ helper }}::<code>count_words()</code> : int</td>
+								<td class="nowarp">{{ "{{ count_words() }}" }}</td>
+								<td>
+									Devuelve la cantidad de palabras en un string<br />
+									<code>string $str</code> String a evaluar
+								</td>
+							</tr>		
 						</tbody>
 					</table>
 					</div>

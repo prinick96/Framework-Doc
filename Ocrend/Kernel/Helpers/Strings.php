@@ -254,7 +254,6 @@ final class Strings extends \Twig_Extension {
     *
     * @param string $sx: Caracter de inicio
     * @param string $str: String a evaluar
-    * @param bool $case_sensitive: Boolean para definir si será seible a mayúsculas o no
     *
     * @return bool: True si comienza con el caracter especificado, False si no
   */
