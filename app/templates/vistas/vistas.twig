@@ -205,6 +205,10 @@ Sólamente itera elemento, si elemento está definido. (isset)
 					<pre><code class="language-php">
 $this->template->addExtension(new NombreDelHelper);
 					</pre></code>
+					<p>Desde nuestra plantilla, solo bastará con hacer el llamado de las funciones</p>
+					<pre><code class="language-php">
+{{ "{{ funcion_del_helper('parámetros') }}" }}
+					</pre></code>
 					<p><code>NOTA:</code> para que el helper pueda funcionar correctamente, éste debe ser compatible con Twig, la forma de revisar ello es viendo si éste hereda de <code>Twig_Extension</code></p>
 
 					<h3>La importancia de <code>{{ "{{ base_assets()|raw }}" }}</code></h3>

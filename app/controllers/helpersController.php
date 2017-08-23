@@ -26,9 +26,29 @@ class helpersController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);   
-        // Contenido del controlador... 
-		echo $this->template->render('helpers/helpers');
-
+        switch($this->method) {
+            case 'arrays':
+                echo $this->template->render('helpers/methods/arrays');
+            break;
+            case 'bootstrap':
+                echo $this->template->render('helpers/methods/bootstrap');
+            break;
+            case 'emails':
+                echo $this->template->render('helpers/methods/emails');
+            break;
+            case 'files':
+                echo $this->template->render('helpers/methods/files');
+            break;
+            case 'strings':
+                echo $this->template->render('helpers/methods/strings');
+            break;
+            case 'functions':
+                echo $this->template->render('helpers/methods/functions');
+            break;
+            default:
+                echo $this->template->render('helpers/helpers');
+            break;
+        }
     }
 
 }

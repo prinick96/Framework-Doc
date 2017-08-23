@@ -26,9 +26,22 @@ class modelosController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);   
-        // Contenido del controlador... 
-		echo $this->template->render('modelos/modelos');
-
+        switch($this->method) {
+            case 'caracteristicas':
+                switch($router->getId()) {
+                    case 'database':
+                        echo $this->template->render('modelos/caracteristicas/database');
+                    break;
+                    default:
+                        global $config;
+                        $this->functions->redir($config['site']['url'] . '/modelos');
+                    break;
+                }
+            break;
+            default:
+		        echo $this->template->render('modelos/modelos');
+            break;
+        }
     }
 
 }

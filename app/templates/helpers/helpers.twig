@@ -5,8 +5,85 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Helpers</h1>
+					<p>Un helper es una colección de funciones en una categoría particular, como su nombre lo indica, están destinados a ofrecer 
+					ayuda para resolver problemas pequeños.</p>
+					<p>Todos los Helpers están dentro del namespace <code>Ocrend/Kernel/Helpers</code> y aquellos que pueden ser utilizados dentro de las plantillas TWIG son herencias directas de <code>Twig_Extension</code></p>
+					<p>Ocrend Framework no carga todos estos helpers por defecto, a excepción del helper <code>Functions</code> que se encuentra disponible para usar en toda la aplicación por defecto.</p>
 				</header>
+				<section>
+					<h2>Cómo cargar un helper para usarlo</h2>
+					<p>Para llamar a un Helper, sólo basta con añadir el namespace en la cabecera de nuestra clase y luego invocar sus métodos estáticos.</p>
+					<pre><code class="language-php">
+use Ocrend\Kernel\Helpers\MiHelper;
+...
+class ... {
+	... function metodo() {
+		MiHelper::la_funcion('parámetros');
+	}
+}					
+					</code></pre>
+					<p>Si queremos que nuestro Helper esté disponible en la vista del controlador que la está llamando, debemos añadir la extensión al template <b>antes de renderizarlo</b></p>
+					<pre><code class="language-php">
+$this->template->addExtension(new MiHelper);
+					</pre></code>
+					<p>Desde nuestra plantilla twig, solo bastará con hacer el llamado de las funciones</p>
+					<pre><code class="language-php">
+{{ "{{ mi_funcion('parámetros') }}" }}
+					</pre></code>
+					<p><code>NOTA:</code> para que el helper pueda funcionar correctamente, éste debe ser compatible con Twig, la forma de revisar ello es viendo si éste hereda de <code>Twig_Extension</code></p>
+
+					<h2>Cómo añadir una función a un helper</h2>
+					<p>Procedemos a editar el Helper, la ubicación sería <strong>./Ocrend/Kernel/Helpers/</strong> abrimos el archivo y creamos la función:</p>
+					<pre><code class="language-php">
+/**
+  * ¿Qué hace?
+  *
+  * @param tipo_de_dato $nombre_de_parametro: ¿para qué se pasa este parámetro?
+  *
+  * @return tipo_de_dato ¿qué es ese dato que retorna? (si no retorna nada basta poner void)
+*/
+#( si no devuelve nada, o más de un tipo de dato no colocar nada en 'tipo_dato_devuelto' )
+final public static function mi_funcion(tipo_de_dato $parametro) : tipo_dato_devuelto {
+  #... todo el código
+}
+					</pre></code>	
+					<p>En caso de que el helper sea compatible con Twig, y se quiere que la función esté disponible en las plantillas, se debe proceder a editar el método <code>getFunctions()</code> añadiendo un elemento más al arreglo:</p>				
+					<pre><code class="language-php">
+public function getFunctions() : array {
+    return array(
+        #nombre_de_la_funcion_en_twig es el nombre que usaremos desde twig para llamar a la función.
+        #mi_funcion es el nombre de la función que cree en el helper, que será ejecutada cuando se llame desde twig a 'nombre_de_la_funcion_en_twig'
+        new \Twig_Function('nombre_de_la_funcion_en_twig',array($this,'mi_funcion'))
+    );
+}					
+					</pre></code>
+
+					<h2>Cómo crear un helper</h2>
+					<p>Es importante no salirse del contexto, los helpers son bibliotecas de funciones con una categoría, si se crea un helper llamado XML por ejemplo, se da a entender que lo único que contendrá ese helper, es funciones encargadas de algún manejo relacionado con XML.</p>
+					<p>Para crear un helper llamado <b>Ejemplo</b>, procedemos a crear un fichero en <strong>./Ocrend/Kernel/Helpers/Ejemplo.php</strong> el cual estará disponible en plantillas Twig.</p>
+					<pre><code class="language-php">
+namespace Ocrend\Kernel\Helpers;
+
+final class Ejemplo extends \Twig_Extension {	
+
+	# Listado de funciones del helper
+
+	public function getFunctions() : array {
+		return array(
+			...
+			new \Twig_Function('funcion_en_twig',array($this,'mi_funcion'))
+			...
+		);
+	}	
+
+	public function getName() : string {
+        return 'ocrend_framework_helper_ejemplo';
+    }
+
+}				
+					</pre></code>
+				</section>
 			</article>
 		</div>
 	</main>
