@@ -1,12 +1,185 @@
 {% extends 'overall/layout' %}
 {% block appBody %}
-   <main class="container">
+   <main class="container-fluid">
 		<div class="row">
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Estructura de Archivos</h1>
+					<p>Listado de carpetas y archivos relevantes sobre la arquitectura de una aplicación web realizada con Ocrend Framework, se detalla el fin de cada carpeta y archivo.</p>
 				</header>
+				<section>
+					<div class="dir-explain">
+						<code class="url">/Ocrend-Framework/</code>
+						<ul class="files">
+							<li>
+								<code>api/</code>
+								<ul class="files">
+									<li>
+										<code>http/</code>
+									</li>
+									<li><code>index.php</code></li>
+								</ul>
+							</li>
+							<li>
+								<code>app/</code>
+								<ul class="files">
+									<li>
+										<code>controllers/</code>
+									</li>
+									<li>
+										<code>models/</code>
+									</li>
+									<li>
+										<code>templates/</code>
+										<ul class="files">
+											<li><code>.cache/</code></li>
+										</ul>
+									</li>							
+								</ul>
+							</li>
+							<li>
+								<code>Ocrend/</code>
+								<ul class="files">
+									<li>
+										<code>Kernel/</code>
+										<ul class="files">
+											<li>
+												<code>Config/</code>
+												<ul class="files">
+													<li><code>Ocrend.ini.yml</code></li>
+												</ul>	
+											</li>
+											<li><code>Controllers/</code></li>
+											<li><code>Database/</code></li>
+											<li>
+												<code>Generator/</code>
+												<ul class="files">
+													<li><code>Templates/</code></li>
+												</ul>
+											</li>
+											<li><code>Helpers/</code></li>
+											<li>
+												<code>Models/</code>
+												<ul class="files">
+													<li><code>Traits/</code></li>
+												</ul>
+											</li>
+											<li><code>Router/</code></li>
+										</ul>
+									</li>	
+									<li>
+										<code>vendor/</code>
+									</li>							
+								</ul>
+							</li>
+							<li><code>views/</code></li>
+							<li><code>gen.php</code></li>
+							<li><code>index.php</code></li>
+						</ul>
+						</div>
+
+						<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Archivo/Carpeta</th>
+								<th>Propósito</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>api/</code></td>
+								<td>Directorio reservado para la API REST.</td>
+							</tr>
+							<tr>
+								<td><code>api/http/</code></td>
+								<td>Archivos destinados a cada verbo HTTP para la API REST.</td>
+							</tr>
+							<tr>
+								<td><code>api/index.php</code></td>
+								<td>Inicializador de la API REST.</td>
+							</tr>
+							<tr>
+								<td><code>app/</code></td>
+								<td>Contenedor de la aplicación web que pretende la arquitecutra MVC.</td>
+							</tr>
+							<tr>
+								<td><code>app/controllers/</code></td>
+								<td>Controladores con el formato nombreController.php</td>
+							</tr>
+							<tr>
+								<td><code>app/models/</code></td>
+								<td>Modelos con el formato Nombre.php</td>
+							</tr>
+							<tr>
+								<td><code>app/templates/</code></td>
+								<td>Vistas agrupadas por carpetas, con el formato carpeta/nombre.twig</td>
+							</tr>
+							<tr>
+								<td><code>app/templates/.cache/</code></td>
+								<td>Directorio de caché para las vistas renderizadas en TWIG.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/</code></td>
+								<td>Dependencias del Framework.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/</code></td>
+								<td>Núcleo del Framework.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Config/Ocrend.ini.yml</code></td>
+								<td>Archivo de configuración del Framework.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Controllers/</code></td>
+								<td>Arquitectura que define los controladores.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Database/</code></td>
+								<td>Driver para conexión a bases de datos.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Generator/Templates/</code></td>
+								<td>Plantillas para el generador de código de consola.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Helpers/</code></td>
+								<td>Funciones de ayuda para usar en cualquier punto de la aplicación.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Models/</code></td>
+								<td>Arquitectura que define los modelos.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Models/Traits/</code></td>
+								<td>Características particulares para los modelos.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/Kernel/Router/</code></td>
+								<td>Enrutador de URL Amigables y Lanzador de controladores.</td>
+							</tr>
+							<tr>
+								<td><code>Ocrend/vendor/</code></td>
+								<td>Colección de librerías usadas como dependencias, instaladas con composer.</td>
+							</tr>
+							<tr>
+								<td><code>views/</code></td>
+								<td>Assets (Css, Images, Scripts).</td>
+							</tr>
+							<tr>
+								<td><code>gen.php</code></td>
+								<td>Generador de código, para más información "php gen.php -ayuda"</td>
+							</tr>
+							<tr>
+								<td><code>index.php</code></td>
+								<td>Lanzador inicial del Framework.</td>
+							</tr>
+						</tbody>
+						</table>
+						</div>
+				</section>
 			</article>
 		</div>
 	</main>

@@ -22,12 +22,12 @@ use Ocrend\Kernel\Controllers\IControllers;
  * @author Brayan Narváez <prinick@ocrend.com>
 */
   
-class apiController extends Controllers implements IControllers {
+class restController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);   
         // Contenido del controlador... 
-		echo $this->template->render('api/api');
+		echo $this->template->render('rest/rest');
 
     }
 

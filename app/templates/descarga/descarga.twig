@@ -1,12 +1,134 @@
 {% extends 'overall/layout' %}
 {% block appBody %}
-   <main class="container">
+   <main class="container-fluid">
 		<div class="row">
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Descarga y Configuración</h1>
+					<h2>Descarga</h2>
+					<p>Clonando el repositorio.</p>
+					<pre><code class="language-bash">git clone https://github.com/prinick96/Ocrend-Framework.git</code></pre>
+					<p><a href="https://github.com/prinick96/Ocrend-Framework/releases">Descargando el paquete manualmente</a></p>
 				</header>
+				<section>	
+					<h2>Permisos Necesarios</h2>
+					<p>En caso de estar en LINUX y obtener problemas de persmisos de escritura o lectura, poner en la consola lo siguiente:</p>
+					<pre><code class="language-bash">sudo chmod -R 777 /ruta/en/donde/esta/el/framework</code></pre>
+					
+					<h2>Configuración</h2>
+					<p>Para empezar la configuración del sitio y que nuestro framework funcione correctamente para empezar a trabajar o para subir a producción, debemos configurar en <b>./Ocrend/Kernel/Config/Ocrend.ini.yml</b></p>
+					<pre><code class="language-yaml">
+site:
+	name: Nombre de su sitio
+	url: http://www.urldelframework.com/
+	router:
+		path: urldelframework.com/
+		protocol: http
+					</code></pre>
+
+					<h2>Ocrend.ini.yml</h2>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Atributo YAML</th>
+								<th>Función</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>database/host</code></td>
+								<td>Servidor de conexión a la base de datos</td>
+							</tr>
+							<tr>
+								<td><code>database/user</code></td>
+								<td>Usuario de conexión a la base de datos</td>
+							</tr>
+							<tr>
+								<td><code>database/pass</code></td>
+								<td>Contraseña de conexión a la base de datos</td>
+							</tr>
+							<tr>
+								<td><code>database/name</code></td>
+								<td>Nombre de la base de datos</td>
+							</tr>
+							<tr>
+								<td><code>database/port</code></td>
+								<td>Puerto para conexión a la base de datos (default 1521)</td>
+							</tr>
+							<tr>
+								<td><code>database/protocol</code></td>
+								<td>Protocolo de conexión para la base de datos (default TCP)</td>
+							</tr>
+							<tr>
+								<td><code>database/motor</code></td>
+								<td>Motor de conexión para la base de datos (default mysql)</td>
+							</tr>
+							<tr>
+								<td><code>phpmailer/host</code></td>
+								<td>Servidor de salida SMTP</td>
+							</tr>
+							<tr>
+								<td><code>phpmailer/user</code></td>
+								<td>Usuario de conexión SMTP</td>
+							</tr>
+							<tr>
+								<td><code>phpmailer/pass</code></td>
+								<td>Contraseña de conexión SMTP</td>
+							</tr>
+							<tr>
+								<td><code>phpmailer/port</code></td>
+								<td>Puerto de salida SMTP (default 465)</td>
+							</tr>
+							<tr>
+								<td><code>sessions/unique</code></td>
+								<td>ID único de sesión para diferenciar una sesión de usuario de otra, cuando hay más de una aplicación en el mismo dominio</td>
+							</tr>
+							<tr>
+								<td><code>sessions/life_time</code></td>
+								<td>Tiempo de vida de sesiones en segundos (default 3600s - 1H)</td>
+							</tr>
+							<tr>
+								<td><code>framework/debug</code></td>
+								<td>Activa/Desactiva el modo depurador (default false)</td>
+							</tr>
+							<tr>
+								<td><code>framework/version</code></td>
+								<td>Versión actual del framework</td>
+							</tr>
+							<tr>
+								<td><code>site/name</code></td>
+								<td>Nombre de la aplicación</td>
+							</tr>
+							<tr>
+								<td><code>site/author</code></td>
+								<td>Autor de la aplicación</td>
+							</tr>
+							<tr>
+								<td><code>site/author_email</code></td>
+								<td>Email del autor de la aplicación</td>
+							</tr>
+							<tr>
+								<td><code>site/timezone</code></td>
+								<td>Tiempo actual para las fechas (<a href="http://php.net/manual/es/timezones.php" target="_blank">http://php.net/manual/es/timezones.php</a>)</td>
+							</tr>
+							<tr>
+								<td><code>site/url</code></td>
+								<td>URL de la aplicación web en donde inicia el framework (index)</td>
+							</tr>
+							<tr>
+								<td><code>site/router/path</code></td>
+								<td>URL de la aplicación donde inincia el framework, sin el protocolo (index)</td>
+							</tr>
+							<tr>
+								<td><code>site/router/protocol</code></td>
+								<td>Protocolo de conexión HTTP/HTTPS (default http)</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
+				</section>
 			</article>
 		</div>
 	</main>
