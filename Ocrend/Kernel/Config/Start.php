@@ -76,7 +76,6 @@ $session->start();
   * Capa orientada a objetos de HTTPFoundation
 */
 $http = Request::createFromGlobals();
-
 //---------------------------------------------------------------------------------------------
 
 /**

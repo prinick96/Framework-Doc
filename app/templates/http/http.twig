@@ -5,8 +5,126 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Peticiones HTTP con HTTPFoundation</h1>
+					<p>El componente HTTPFoundation de Symfony define una capa orientad a objetos para las especificaciones HTTP, 
+					en PHP las solicitudes HTTP están representadas por algunas variables globales (<code>$_GET</code>, <code>$_POST</code>,<code>$_FILES</code>, <code>$_COOKIE</code>, <code>$_SESSION</code>,...)
+					y la respuesta es generada por algunas funciones como (<code>echo</code>, <code>header</code>, <code>setcookie</code>, ...)</p>
+					<p>Éste componente reemplaza todas las variables y funciones globales PHP para manipular las especificaciones HTTP predeterminadas por una capa orientada a objetos, se recomienda encarecidamente utilizar HTTPFoundation en vez de las definiciones por defecto de PHP a la hora de trabajar con peticiones HTTP.</p>
 				</header>
+				<section>
+					<h3>Objeto <code>$http</code></h3>
+					<p>El objeto <code>$http</code> es definido en <code>Ocrend/Kernel/Config/Start</code>,	representa un contenedor para las peticiones <code>$_GET</code>, <code>$_POST</code>, <code>$_COOKIE</code>, <code>$_FILES</code> y <code>$_SERVER</code></p>
+					<p>La forma correcta de acceder a él, desde cualquier controlador o modelo es haciendo una llamada global dentro del método que lo necesite.</p>
+					<pre><code class="language-php">global $http;</code></pre>
+				
+					<h3>Accediendo a las solicitudes</h3>
+					<p>Se presenta una tabla de equivalencias.</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>Equivalente HTTPFoundation</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>$_GET['elemento']</code></td>
+								<td><code>$http->query->get('elemento')</code> devuelve <code>NULL</code> si no existe 'elemento'</td>
+							</tr>
+							<tr>
+								<td><code>$_GET['elemento'] = 'Nuevo Valor'</code></td>
+								<td><code>$http->query->set('elemento','Nuevo Valor')</code></td>
+							</tr>
+							<tr>
+								<td><code>unset($_GET['elemento])</code></td>
+								<td><code>$http->query->remove('elemento')</code></td>
+							</tr>
+							<tr>
+								<td><code>$_POST['elemento']</code></td>
+								<td><code>$http->request->get('elemento')</code> devuelve <code>NULL</code> si no existe 'elemento'</td>
+							</tr>
+							<tr>
+								<td><code>$_POST['elemento'] = 'Nuevo Valor'</code></td>
+								<td><code>$http->request->set('elemento','Nuevo Valor')</code></td>
+							</tr>
+							<tr>
+								<td><code>unset($_POST['elemento])</code></td>
+								<td><code>$http->request->remove('elemento')</code></td>
+							</tr>
+							<tr>
+								<td><code>$_COOKIE['elemento']</code></td>
+								<td><code>$http->cookies->get('elemento')</code> devuelve <code>NULL</code> si no existe 'elemento'</td>
+							</tr>
+							<tr>
+								<td><code>setcookie('elemento', 'Nuevo Valor'); </code></td>
+								<td><code>$http->cookies->set('elemento','Nuevo Valor')</code></td>
+							</tr>
+							<tr>
+								<td><code>unset($_COOKIE['elemento])</code></td>
+								<td><code>$http->cookies->remove('elemento')</code></td>
+							</tr>
+							<tr>
+								<td><code>$_SERVER['SERVER_NAME']</code></td>
+								<td><code>$http->server->get('SERVER_NAME')</code></td>
+							</tr>
+							<tr>
+								<td><code>$_SERVER['HTTP_CONTENT_TYPE']</code></td>
+								<td><code>$http->headers->get('Content-Type')</code></td>
+							</tr>
+							<tr>
+								<td><code>$file = $_FILES['archivo']</code></td>
+								<td><code>$file = $http->files->get('archivo')</code> devuelve <code>NULL</code> si no se ha subido 'archivo'</td>
+							</tr>
+							<tr>
+								<td><code>$file['size']</code></td>
+								<td><code>$file->getClientSize()</td>
+							</tr>
+							<tr>
+								<td><code>$file['name']</code></td>
+								<td><code>$file->getClientOriginalName()</td>
+							</tr>
+							<tr>
+								<td><code>end(explode('.', $file['name']))</code> extensión del archivo</td>
+								<td><code>$file->getClientOriginalExtension()</td>
+							</tr>
+							<tr>
+								<td><code>move_uploaded_file(...)</code> guardar archivo</td>
+								<td><code>$file->move('ruta/', $file->getClientOriginalName());</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3>Objeto <code>$session</code></h3>
+					<p>El objeto <code>$session</code> es definido en <code>Ocrend/Kernel/Config/Start</code>, representa un objeto para manejar todas las sesiones dentro del sistema.</p>
+					<p>La forma correcta de acceder a ellas, desde cualquier controlador o modelo es haciendo una llamada global dentro del método que lo necesite.</p>
+					<pre><code class="language-php">global $session;</code></pre>
+					<p><code>NOTA:</code> el tiempo de vida de las sesiones depende del parámetro <code>sessions/life_time</code> en <code>Ocrend.ini.yml</code></p>
+
+					<h3>Accediendo a las sesiones</h3>
+					<p>Se presenta una tabla de equivalencias.</p>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>PHP</th>
+								<th>Equivalente HTTPFoundation</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>$_SESSION['elemento']</code></td>
+								<td><code>$session->get('elemento')</code> devuelve <code>NULL</code> si no existe 'elemento'</td>
+							</tr>
+							<tr>
+								<td><code>$_SESSION['elemento'] = 'Nuevo Valor'</code></td>
+								<td><code>$session->set('elemento','Nuevo Valor')</code></td>
+							</tr>
+							<tr>
+								<td><code>unset($_SESSION['elemento'])</code></td>
+								<td><code>$session->remove('elemento')</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
 			</article>
 		</div>
 	</main>

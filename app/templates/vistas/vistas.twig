@@ -207,7 +207,7 @@ $this->template->addExtension(new NombreDelHelper);
 					</pre></code>
 					<p><code>NOTA:</code> para que el helper pueda funcionar correctamente, éste debe ser compatible con Twig, la forma de revisar ello es viendo si éste hereda de <code>Twig_Extension</code></p>
 
-					<h3>La importancia de {{ "{{ base_assets()|raw }}" }}</h3>
+					<h3>La importancia de <code>{{ "{{ base_assets()|raw }}" }}</code></h3>
 					<p>Para que los estilos, imágenes y scripts de la aplicación carguen correctamente y el navegador no indexe mal las rutas por culpa de las URL amigables, es de <b>suma importancia</b> hacer el llamado a dicha función dentro de las etiquetas <code>head</code></p>
 					<pre><code class="language-php">
 &lt;head&gt;

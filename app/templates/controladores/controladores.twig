@@ -6,6 +6,7 @@
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
 					<h1>Controladores</h1>
+					<p>Los controladores son una parte fundamental a la hora de crear páginas dentro de la aplicación.</p>
 				</header>
 				<section>
 					<h2>Lanzador, moverse entre páginas</h2>
@@ -43,7 +44,7 @@ class ejemploController extends Controllers implements IControllers {
 					<pre><code class="language-bash">php gen.php app:c Prueba</code></pre>
 					<p>La consola deberá indicar si se creó el controlador con éxito, en caso de que ya exista un controlador con ese nombre, no será creado</p>
 				
-					<h2>La clase Controllers</h2>
+					<h2>La clase <code>Controllers</code></h2>
 					<p>La clase Controllers está ubicada en el namespace <code>Ocrend/Kernel/Controllers/Controllers</code>. Es una clase abstracta, ésta existe sólo para ser heredada por los controladores de nuestro sitio y distribuir de forma global funciones, propiedades y métodos entre todas las páginas (controladores) que tenga nuestra aplicación.</p>
 					<table class="table table-bordered table-striped">
 						<thead>
@@ -85,7 +86,7 @@ class ejemploController extends Controllers implements IControllers {
 						</tbody>
 					</table>
 
-					<h2>La interfaz IControllers</h2>
+					<h2>La interfaz <code>IControllers</code></h2>
 					<p>La implementación de ésta interfaz es para garantizar el correcto funcionamiento del controlador.</p>
 					<table class="table table-bordered table-striped">
 						<thead>
