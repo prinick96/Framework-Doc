@@ -15,7 +15,7 @@
     <li>
       <a {{ controller == 'helpers' or method in ['arrays','bootstrap','emails','files','strings','functions'] ? 'class="active"' : '' }} href="#">Helpers</a>
       <ul>
-        <li><a {{ controller == 'helpers' ? 'class="active"' : '' }} href="helpers/">Uso y Creación</a></li>
+        <li><a {{ controller == 'helpers' and method == null ? 'class="active"' : '' }} href="helpers/">Uso y Creación</a></li>
         <li><a {{ method == 'arrays' ? 'class="active"' : '' }} href="helpers/arrays/">Arrays</a></li>
         <li><a {{ method == 'emails' ? 'class="active"' : '' }} href="helpers/emails/">Emails</a></li>
         <li><a {{ method == 'files' ? 'class="active"' : '' }} href="helpers/files/">Files</a></li>
@@ -26,12 +26,13 @@
     <li>
       <a {{ controller == 'modelos' or id in ['database'] ? 'class="active"' : '' }} href="#">Modelos</a>
       <ul>
-        <li><a {{ controller == 'modelos' ? 'class="active"' : '' }} href="modelos/">Uso y Creación</a></li>
+        <li><a {{ controller == 'modelos' and id == null  ? 'class="active"' : '' }} href="modelos/">Uso y Creación</a></li>
         <li><a {{ id == 'database' ? 'class="active"' : '' }} href="modelos/caracteristicas/database/">Bases de Datos</a></li>
       </ul>
     </li> 
     <li><a {{ controller == 'debug' ? 'class="active"' : '' }} href="debug/">Depurador / Debug</a></li>
     <li><a {{ controller == 'rest' ? 'class="active"' : '' }} href="rest/">API Rest</a></li>
+    <li><a {{ controller == 'generador' ? 'class="active"' : '' }} href="generador/">Generador</a></li>
   </ul>
 
 </aside>

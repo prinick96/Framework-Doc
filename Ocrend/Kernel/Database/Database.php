@@ -54,7 +54,6 @@ namespace Ocrend\Kernel\Database;
     *
     * @param string|null $name : Nombre de la base de datos a conectar
     * @param string|null $motor: Motor de la base de datos a conectar
-    * @param bool $new_instance: true para iniciar una nueva instancia (al querer conectar a una DB distinta)
     *
     * @throws RuntimeException si el motor no existe
     * @throws RuntimeException si existe algún problema de conexión con la base de datos

@@ -5,8 +5,229 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Característica DBModel</h1>
+					<p>La característica DBModel es un <code>Trait</code> que se añade como rasgo a aquellos modelos que necesiten de conexión a base de datos.</p>
+					<pre><code class="language-php">use Ocrend\Kernel\Models\Traits\DBModel</code></pre>
 				</header>
+				<section>
+					<h2>Cómo conectarse a una base de datos</h2>
+					<p>Se necesita crear un modelo que se pueda conectar a la base de datos, para ello éste debe tener la siguiente estructura</p>
+					<pre><code class="language-php">
+namespace app\models;
+
+use app\models as Model;
+use Ocrend\Kernel\Models\Models;
+use Ocrend\Kernel\Models\IModels;
+use Ocrend\Kernel\Models\ModelsException;
+use Ocrend\Kernel\Models\Traits\DBModel;
+use Ocrend\Kernel\Router\IRouter;
+
+class Ejemplo extends Models implements IModels {
+	# Usar la característica DBModel
+	use DBModel;
+
+    public function __construct(IRouter $router = null) {
+        parent::__construct($router); 
+		# Construir la conexión
+		$this->startDBConexion();
+    }
+
+    public function __destruct() {
+        parent::__destruct();
+		# Terminar la conexión
+		$this->endDBConexion();
+    }
+}						
+					</code></pre>
+					<p><code>NOTA:</code> Con dicha configuración, el modelo tomará los atributos configurados en <code>database/</code> de <code>Config.ini.yml</code></p>
+
+					<h2>Crear modelo con DBModel usando el generador</h2>
+					<p>Otra forma de crear un modelo que pueda conectarse con la base de datos, es usando el generador de código el cual sin falla alguna escribirá todo el código necesario para que el modelo quede funcional.</p>
+					<pre><code class="language-bash">php gen.php app:m Prueba -db</code></pre>
+					<p>La consola deberá indicar si se creó el modelo con éxito, en caso de que ya exista un modelo con ese nombre, no será creado</p>
+				
+					<h2>El trait <code>DBModel</code></h2>
+					<p>El trait DBModel está ubicada en el namespace <code>Ocrend/Kernel/Models/Traits/DBModels</code>. Es un rasgo que se añade a todos los modelos que necesiten realizar operaciones con la base de datos.</p>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método / Atributo</th>
+								<th>Función</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp">protected <code>$db</code></td>
+								<td>Tiene la instancia de la conexión con la base de datos actual.</td>
+							</tr>
+							<tr>
+								<td class="nowarp">protected <code>startDBConexion</code></td>
+								<td>Inicializa la conexión con una base de datos.<br />
+									<code>$databaseConfig = null</code> Configuración de conexión con base de datos, arreglo
+									<ul>
+										<li><code>'name' => string</code> Nombre de la base de datos a conectar</li>
+										<li><code>'motor' => string</code> Motor de la base de datos a conectar</li>
+										<li><code>'new_instance' => Booleano</code> Establecer como true para obtener una nueva instancia distinta a alguna ya existente</li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">protected <code>endDBConexion</code></td>
+								<td>Cierra la conexión con la base de datos.</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
+
+					<h2>El atributo <code>$this->db</code></h2>
+					<p>Una vez que se añade la característica <code>DBModel</code> a un modelo, el modelo hereda el atributo <code>$db</code>, éste es una instancia de <code>Ocrend\Kernel\Database\Database</code> que, a su vez, es una herencia de <a href="http://php.net/manual/es/class.pdo.php" target="_blank"><code>PDO PHP</code></a></p>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método</th>
+								<th>Función</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp">public <code>Start()</code> : Database</td>
+								<td>Inicia la instancia de conexión, si ésta ya ha sido declarada antes, no la duplica y ahorra memoria.<br />
+									<code>$name = null</code> Nombre de la base de datos a conectar<br />
+									<code>$motor = null</code> Motor de la base de datos a conectar<br />
+									<code>bool $new_instance = false</code> Establecer en <code>true</code> para iniciar una nueva instancia (al querer conectar a una DB distinta)
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>__construct()</code></td>
+								<td>Inicia la conexión con la base de datos seleccionada.<br />
+									<code>string $name</code> Nombre de la base de datos a conectar<br />
+									<code>string $motor</code> Motor de la base de datos a conectar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>fetch_array()</code> : array</td>
+								<td>Devuelve un arreglo asociativo de todos los resultados arrojados por una query<br />
+									<code>PDOStatement $query</code> valor devuelto de la query
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>rows()</code> : int</td>
+								<td>Consigue el numero de filas encontradas después de un SELECT<br />
+									<code>PDOStatement $query</code> valor devuelto de la query
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>scape()</code> : mixed</td>
+								<td>Sana un valor para posteriormente ser introducido en una query<br />
+									<code>mixed $e</code> valor a sanar
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>delete()</code> : PDOStatement</td>
+								<td>Borra una serie de elementos de forma segura de una tabla en la base de datos<br />
+									<code>string $table</code> Tabla a la cual se le quiere remover un elemento<br />
+									<code>string $where</code> Condición de borrado que define quien/quienes son dichos elementos<br />
+									<code>string $limit = 'LIMIT 1'</code> Por defecto se limita a borrar un solo elemento que cumpla el <code>$where</code>
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>insert()</code> : PDOStatement</td>
+								<td>Inserta una serie de elementos a una tabla en la base de datos<br />
+									<code>string $table</code> Tabla a la cual se le quiere remover un elemento<br />
+									<code>array $e</code> Arreglo asociativo de elementos a insertar, con la estrctura
+									<ul>
+										<li>'nombre_del_campo_en_la_db' => <code>$valor</code></li>
+										<li><code>NOTA:</code> el contenido de <code>$valor</code> no necesita ser sanado, el método lo sana automáticamente.
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>update()</code> : PDOStatement</td>
+								<td>Actualiza elementos de una tabla en la base de datos según una condición<br />
+									<code>string $table</code> Tabla a la cual se le quiere remover un elemento<br />
+									<code>array $e</code> Arreglo asociativo de elementos a modificar, con la estrctura
+									<ul>
+										<li>'nombre_del_campo_en_la_db' => <code>$valor</code></li>
+										<li><code>NOTA:</code> el contenido de <code>$valor</code> no necesita ser sanado, el método lo sana automáticamente.
+									</ul>
+									<code>string $where</code> Condición de modificación que define quien/quienes son dichos elementos<br />
+									<code>string $limit = ''</code>  Límite de elementos modificados, por defecto los modifica a todos
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>select()</code> : false|array</td>
+								<td>Selecciona y lista en un arreglo asociativo/numérico los resultados de una búsqueda en la base de datos, si no hay resultados retorna <code>false</code><br />
+									<code>string $e</code> Elementos a seleccionar separados por coma<br />
+									<code>string $tbale</code> Tabla de la cuál se quiere extraer los elementos <code>$e</code><br />
+									<code>string $where = '1 = 1'</code> Condición que indica quienes son los que se extraen, si no se coloca extrae todos<br />
+									<code>string $limite = ''</code> Límite de elementos a traer, por defecto trae todos los que cumplan con la condición escrita en </code>$where<code>
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>query_select()</code> : false|array</td>
+								<td>Realiza una query, ideal para trabajar con SELECTS ya que retorna <code>false/</code> si no hay resultados, o un arreglo si los hay.<br />
+									<code>string $sql</code> Query en SQL
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">public <code>query()</code> : PDOStatement</td>
+								<td>Realiza una query, método nativo de <code>PDO</code><br />
+									<code>string $sql</code> Query en SQL
+								</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
+					<p><code>NOTA:</code> Todos los métodos y atributos de la clase <code>PDO</code> de PHP, como querys preparadas, etc, siguen estando disponibles y se pueden seguir trabajando de la misma manera.</p>
+				
+					<h2>Listado de motores soportados</h2>
+					<p>Se presenta una lista con todos los motores soportados por el driver <code>Database</code></p>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Motor</th>
+								<th>String del parámetro</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>MySQL 5.1+</td>
+								<td><code>mysql</code> (default)</td>
+							</tr>
+							<tr>
+								<td>Oracle</td>
+								<td><code>oracle</code></td>
+							</tr>
+							<tr>
+								<td>PostgreSQL</td>
+								<td><code>postgresql</code></td>
+							</tr>
+							<tr>
+								<td>MS SQL</td>
+								<td><code>mssql</code></td>
+							</tr>
+							<tr>
+								<td>SQLite</td>
+								<td><code>sqlite</code></td>
+							</tr>
+							<tr>
+								<td>CUBRID</td>
+								<td><code>cubrid</code></td>
+							</tr>
+							<tr>
+								<td>Interbase/Firebid</td>
+								<td><code>firebird</code></td>
+							</tr>
+							<tr>
+								<td>ODBC</td>
+								<td><code>odbc</code></td>
+							</tr>
+						</tbody>
+						</table>
+				</section>
 			</article>
 		</div>
 	</main>
