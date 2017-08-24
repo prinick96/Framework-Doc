@@ -5,8 +5,119 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Modelos</h1>
+					<p>Los modelos son clases destinadas al manejo de la lógica, acciones y son la única entidad que puede realizar una interacción con la base de datos, de acuerdo a la estructura del framework, es la tercera capa de funcionamiento en el flujo MVC.</p>
 				</header>
+				<section>
+					<h2>Creación de un Modelo</h2>
+					<p>Todos los modelos de nuestra aplicación deben crearse en la ruta <code>./app/models/</code> y el formato del nombre debe ser <b><i>Nombre</i>.php</b>, el nombre del archivo debe ser exactamente el mismo que el de la clase contenedora.</p>
+					<p>Para que un modelo sea 100% funcional, debe herederar de la clase padre <code>Ocrend/Kernel/Models/Models</code> e implementar la interfaz <code>Ocrend/Kernel/Models/IModels</code></p>
+					<p>Vamos a crear el modelo <b>Ejemplo</b>, para ello debemos crear el fichero<code>./app/models/Ejemplo.php</code></p>
+					<pre><code class="language-php">
+namespace app\models;
+
+use app\models as Model;
+use Ocrend\Kernel\Models\Models;
+use Ocrend\Kernel\Models\IModels;
+use Ocrend\Kernel\Models\ModelsException;
+use Ocrend\Kernel\Models\Traits\DBModel;
+use Ocrend\Kernel\Router\IRouter;
+
+class Ejemplo extends Models implements IModels {
+
+	# Métodos de mi modelo Ejemplo
+
+    public function __construct(IRouter $router = null) {
+        parent::__construct($router);
+    }
+
+    public function __destruct() {
+        parent::__destruct();
+    }
+}					
+					</code></pre>
+					<p>A continuación, para proceder a usarlo, debemos llamarlo desde otro modelo, otro controlador o desde algún verbo http teniendo en cuenta que debe existir el namespace <code>use app\models as Model</code></p>
+					<pre><code class="language-php">$modelo = new Model\Ejemplo;</code></pre>
+					<p>En caso de necesitar usar atributos dentro del modelo, que impliquen la lectura de la URL, por ejemplo el atributo <code>$this->id</code>, se debe instanciar de la siguiente manera:</p>
+					<pre><code class="language-php">$modelo = new Model\Ejemplo($router);</code></pre>
+					<p><code>NOTA:</code> la variable <code>$router</code> debe ser una implementación de la interfaz <code>Ocrend\Kernel\Router\IRouter</code>, de ésta manera nos vemos obligados a instanciar desde un controlador o desde otro modelo que reciba dicha implementación al ser instanciado desde algún controlador.</p>
+					
+					<h2>Creación de un modelo con el generador</h2>
+					<p>Otra forma de crear un modelo, es usando el generador de código el cual sin falla alguna escribirá todo el código necesario para que el modelo quede funcional.</p>
+					<pre><code class="language-bash">php gen.php app:m Prueba</code></pre>
+					<p>La consola deberá indicar si se creó el modelo con éxito, en caso de que ya exista un modelo con ese nombre, no será creado</p>
+				
+					<h2>La clase <code>Models</code></h2>
+					<p>La clase Models está ubicada en el namespace <code>Ocrend/Kernel/Models/Models</code>. Es una clase abstracta, ésta existe sólo para ser heredada por los modelos de nuestro sitio y distribuir de forma global funciones, propiedades y métodos entre toda la lógica que tenga nuestra aplicación.</p>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método / Atributo</th>
+								<th>Función</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp">protected <code>$id</code></td>
+								<td>Tiene siempre el id pasado por la ruta (aplicando reglas), en caso de no haber ninguno, será cero.<br />
+								<code>NOTA:</code> si no se pasa alguna implementación de la interaz <code>IRouter</code> no será posible obtener nunca el valor de la ruta <i>"/id"<i> y el valor siempre será cero (0).</td>
+							</tr>
+							<tr>
+								<td class="nowarp">protected <code>$functions</code></td>
+								<td>Contiene la instancia del Helper <a href="helpers/functions/" target="_blank"><code>Functions</code></a></td>
+							</tr>
+							<tr>
+								<td class="nowarp">protected <code>$id_user</code></td>
+								<td>Contiene el id del usuario que tiene su sesión iniciada. Si no existe ningún usuario conectado, el valor será <code>NULL</code></td>
+							</tr>
+							<tr>
+								<td class="nowarp">protected <code>__construct()</code></td>
+								<td>
+									Constructor inicializador de la clase.<br />
+									<code>IRouter $router</code> interfaz del enrutador para obtener información sobre la url.
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">protected <code>__destruct()</code></td>
+								<td>
+									Destructor finalizador de la clase.
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp">protected <code>setId()</code> </td>
+								<td>
+									Asigna el id desde un modelo, ideal para cuando queremos darle un valor numérico que proviene de un formulario y puede ser inseguro.<br />
+									<code>mixed $id</code> Id a asignar en <code>$this->id</code><br />
+									<code>string $default_msg = 'No puedede asignarse el id.'</code> Mensaje a lanzar en caso de que no se pueda asignar<br />
+									<br />
+									<code>throws ModelsException</code> cuando no se puede asignar el id
+								</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
+
+					<h2>La interfaz <code>IModels</code></h2>
+					<p>La implementación de ésta interfaz es para garantizar el correcto funcionamiento del modelo.</p>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Método Necesario</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>public <code>__construct(IRouter $router)</code></td>
+							</tr>
+							<tr>
+								<td>public <code>__destruct()</code></td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+				</section>
 			</article>
 		</div>
 	</main>

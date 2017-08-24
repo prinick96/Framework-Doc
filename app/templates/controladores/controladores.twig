@@ -17,7 +17,7 @@
 					<p>El lanzador interpreta la petición en la URL y trata de buscar la coincidencia de un controlador en la carpeta <code>./app/controllers/</code>, si lo encuentra lo ejecuta y si no hay coincidencias ejecutará siempre <b>errorController</b>.</p>
 				
 					<h2>Creación de un controlador</h2>
-					<p>Todos los controladores de nuestra aplicación deben crearse en la ruta <code>./app/controllers</code> y el formato del nombre debe ser <b><i>nombre</i>Controller.php</b>, el nombre del archivo debe ser exactamente el mismo que el de la clase contenedora.</p>
+					<p>Todos los controladores de nuestra aplicación deben crearse en la ruta <code>./app/controllers/</code> y el formato del nombre debe ser <b><i>nombre</i>Controller.php</b>, el nombre del archivo debe ser exactamente el mismo que el de la clase contenedora.</p>
 					<p>Para que un controlador sea 100% funcional, debe herederar de la clase padre <code>Ocrend/Kernel/Controllers/Controllers</code> e implementar la interfaz <code>Ocrend/Kernel/Controllers/IControllers</code></p>
 					<p>Vamos a crear el controlador <b>ejemplo</b>, para ello debemos crear el fichero<code>./app/controllers/ejemploController.php</code></p>
 					<pre><code class="language-php">
@@ -40,7 +40,7 @@ class ejemploController extends Controllers implements IControllers {
 					<p>A continuación, si visitamos <b>http://localhost/Ocrend-Framework/ejemplo/</b> debe aparecer el mensaje "soy un controlador de ejemplo" en la pantalla de nuestro navegador web.</p>
 				
 					<h2>Creación de un controlador con el generador</h2>
-					<p>Otra forma de crear un controlador, es usando el generador de código el cual sin falla alguna escribirá todo el código necesario para que nuestro controlador quede funcional.</p>
+					<p>Otra forma de crear un controlador, es usando el generador de código el cual sin falla alguna escribirá todo el código necesario para que el controlador quede funcional.</p>
 					<pre><code class="language-bash">php gen.php app:c Prueba</code></pre>
 					<p>La consola deberá indicar si se creó el controlador con éxito, en caso de que ya exista un controlador con ese nombre, no será creado</p>
 				
@@ -99,7 +99,7 @@ class ejemploController extends Controllers implements IControllers {
 						</thead>
 						<tbody>
 							<tr>
-								<td>public <code>_construct(IRouter $router)</code></td>
+								<td>public <code>__construct(IRouter $router)</code></td>
 							</tr>
 						</tbody>
 					</table>

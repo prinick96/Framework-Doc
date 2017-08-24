@@ -26,7 +26,7 @@ class homeController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);   
-        echo $this->template->render('home/home');
+        echo $this->template->render('sobre/sobre');
     }
 
 }
