@@ -5,8 +5,42 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Depurador / Debug</h1>
+					The Debug component provides several tools to help you debug PHP code. Enabling them all is as easy as it can get:
+					<p>El depurador provee bastantes herramientas para ayudar a depurar el código PHP. Para realizar la activación del depurador, se debe colocar en <code>true</code> el atributo <code>framework/debug</code> en <code>Ocrend.ini.yml</code>.</p>
+					<pre><code class="language-yaml">
+framework:
+	debug: true
+</code></pre>
+					<p><code>IMPORTANTE:</code> Activar el depurador en producción puede revelar información sensible.</p>
 				</header>
+				<section>
+					<h2>La función <code>dump()</code></h2>
+					<p>Es un alias de <code>var_dump()</code> que presenta una salida más elegante, con más información y ordenada en todo momento.</p>
+					<p>La función puede ser llamda desde cualquier controlador, modelo o verbo http en la api rest.</p>
+					<ul>
+						<li>Por objetos, tipos de recuros, tipos de variables, como información plegable.</li>
+						<li>Formatos de salida configurables: salida de línea de comandos HTML o coloreada.</li>
+						<li>Es capaz de volcar referencias internas, ya sea de objetos, arreglos, propiedades de objetos. Las ocurrencias repetidas e un mismo objeto / matriz / recurso no aparecen una y otra vez, además permite inspeccionar la estructura de referencia de los datos.</li>
+					</ul>
+					<pre><code class="language-php">dump(array('indice' => 10.7))</code></pre>
+					<p><a href="https://symfony.com/doc/current/components/var_dumper.html" target="_blank">>> Más información acerca del uso de esta herramienta</a>
+				
+					<h2>Muestra de errores php con ajax</h2>
+					<p>Al activar el debug, también se adquiere la posibilidad de ver los errores internos de PHP cuando hacemos alguna llamada vía ajax a algún modelo a través de la api rest. De esta manera, el programador puede ver claramente donde están los problemas en vez de obtener una respuesta con <code>error 500</code> en la consola de javascript.</p>
+					<p><code>NOTA:</code> para que dicha funcionalidad exista, en <code>layout.twig</code>, o en donde se haga el respectivo llamado al fichero jQuery de la aplicación, el código debe tener esta estructura:</p>
+					<pre><code class="language-php">
+{{ "{# Carga de jQuery #}
+{% if config.framework.debug %}
+	{# jQuery para ver errores de ajax vía consola, no eliminar #}
+    <script src=\"views/app/js/jdev.js\"></script>
+{% else %}
+    {# jQuery para su plantilla, este puede ser modificado a voluntad #}
+    <script src=\"views/app/vendor/jquery/jquery.min.js\"></script>
+{% endif %}"|e }}					
+					</code></pre>
+					<p>Al tener el debug activo y las instrucciones anteriores en <code>layout.twig</code>, cada vez que exista algún problema, saltará en una nueva pestaña la excepción explicando el error. Además de, ver en la consola de javascript (F12), las respuesta en json limpio.</p>
+				</section>
 			</article>
 		</div>
 	</main>

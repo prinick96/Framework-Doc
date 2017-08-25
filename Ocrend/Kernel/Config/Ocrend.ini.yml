@@ -38,7 +38,7 @@ site:
   author: Brayan Narváez
   author_email: prinick@ocrend.com
   timezone: America/Caracas
-  url: http://localhost/Framework-Doc/
+  url: http://localhost/PROYECTOS/Framework-Doc/
   router:
-    path: localhost/Framework-Doc/
+    path: localhost/PROYECTOS/Framework-Doc/
     protocol: http
