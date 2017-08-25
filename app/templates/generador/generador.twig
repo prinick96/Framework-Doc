@@ -5,8 +5,452 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>Generador de código</h1>
+					<p>Es un script escrito en PHP orientando su uso a la consola, su ubicación es <code>./gen.php</code> y tiene como cometido ser bastante útil al momento de escribir una y otra vez contenidos similares, además de automatizar enormemente la creación de módulos completos en un sistema, por ejemplo CRUDS enteros, escribiéndo todo el código y creando tablas en la base de datos, inclusive acoplándose al diseño web que tenga la aplicación.</p>
+					<p><code>NOTA:</code> para utilizar el generador, se debe poder utilizar PHP desde la consola, es decir, tenerla en el registro de variabels globales de Windows/Mac/Linux</p>
 				</header>
+				<section>
+					<h2>Cómo utilizarlo</h2>
+					<p>Hay que ubicarse en la ruta root de el framework desde la consola, es decir, en el índice donde se encuentra el fichero <code>gen.php</code></p>
+					<pre><code class="language-bash">php gen.php -ayuda</code></pre>
+					<p>Dicho comando mostrará un menú de ayuda con todos los posibles comandos que puede manejar el generador.</p>
+
+					<h2>Crear un controlador</h2>
+					<p>Un uso simple, sería crear un controlador</p>
+					<pre><code class="language-bash">php gen.php app:c Hola</code></pre>
+					<p>Generaría el fichero <code>./app/controllers/holaController.php</code> que tendrá escrito código PHP con la estructura mínima para que el framework la considere un controlador.</p>
+					<p><code>NOTA:</code> si el fichero ya existe, no será reemplazado, por tanto no será creado por el generador.</p>
+					<p>La plantilla que utiliza el framework para escribir este código está en <code>./Ocrend/Kernel/Generator/Templates/controller.php</code> cuyo contenido es:</p>
+<pre><code class="language-php">
+{{ "namespace app\controllers;
+
+use app\models as Model;
+use Ocrend\Kernel\Router\IRouter;
+use Ocrend\Kernel\Controllers\Controllers;
+use Ocrend\Kernel\Controllers\IControllers;
+  
+/**
+ * Controlador {{view}}/
+ *
+ * @author {{author}} <{{author_email}}>
+*/
+  
+class {{controller}} extends Controllers implements IControllers {
+
+    public function __construct(IRouter $router) {
+        parent::__construct($router);   
+        {{content}}
+    }
+
+}"}}
+</code></pre>		
+
+				<h3>Referencia de marcas</h3>	
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Marca</th>
+								<th>Interpretación del Generador</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>{{ "{{view}}" }}</code></td>
+								<td>Nombre de la vista que corresponde</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{author}}" }}</code></td>
+								<td>Autor de la clase</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{author_email}}" }}</code></td>
+								<td>Email del autor de la clase</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{controller}}" }}</code></td>
+								<td>Nombre de la clase del controlador</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{content}}" }}</code></td>
+								<td>Contenido del controlador, varía según opciones y otros elementos generados</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>	
+
+
+					<h2>Crear un modelo</h2>
+					<p>Para crear un modelo</p>
+					<pre><code class="language-bash">php gen.php app:m Hola</code></pre>
+					<p>Para crear un modelo con la característica <code>DBModel</code></p>
+					<pre><code class="language-bash">php gen.php app:m Hola -db</code></pre>
+					<p><code>NOTA:</code> Si se usa la opción <code>-db</code> en conjunto con otras, ésta debe estar escrita al final de toda la instrucción.</p>
+					<p>Generaría el fichero <code>./app/models/Hola.php</code> que tendrá escrito código PHP con la estructura mínima para que el framework la considere un modelo.</p>
+					<p><code>NOTA 2:</code> si el fichero ya existe, no será reemplazado, por tanto no será creado por el generador.</p>		
+					<p>La plantilla que utiliza el framework para escribir este código está en <code>./Ocrend/Kernel/Generator/Templates/models.php</code> cuyo contenido es:</p>
+<pre><code class="language-php">
+{{ "namespace app\models;
+
+use app\models as Model;
+use Ocrend\Kernel\Models\Models;
+use Ocrend\Kernel\Models\IModels;
+use Ocrend\Kernel\Models\ModelsException;
+use Ocrend\Kernel\Models\Traits\DBModel;
+use Ocrend\Kernel\Router\IRouter;
+
+/**
+ * Modelo {{model}}
+ *
+ * @author {{author}} <{{author_email}}>
+ */
+
+class {{model}} extends Models implements IModels {
+    {{trait_db_model}}
+
+    {{content}}
+
+    /**
+      * __construct()
+    */
+    public function __construct(IRouter $router = null) {
+        parent::__construct($router);
+        {{trait_db_model_construct}}
+    }
+
+    /**
+      * __destruct()
+    */ 
+    public function __destruct() {
+        parent::__destruct();
+        {{trait_db_model_destruct}}
+    }
+}"}}
+</code></pre>		
+
+					<h3>Referencia de marcas</h3>	
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Marca</th>
+								<th>Interpretación del Generador</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>{{ "{{model}}" }}</code></td>
+								<td>Nombre del la clase del modelo</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{author}}" }}</code></td>
+								<td>Autor de la clase</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{author_email}}" }}</code></td>
+								<td>Email del autor de la clase</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{content}}" }}</code></td>
+								<td>Contenido del modelo, varía según opciones y otros elementos generados</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{trait_db_model}}" }}</code></td>
+								<td>Se sustituye por la característica <code>DBModel</code> en caso de que exista la opción <code>-db</code></td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{trait_db_model_construct}}" }}</code></td>
+								<td>Se sustituye por la característica <code>DBModel</code> en caso de que exista la opción <code>-db</code></td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{trait_db_model_destruct}}" }}</code></td>
+								<td>Se sustituye por la característica <code>DBModel</code> en caso de que exista la opción <code>-db</code></td>
+							</tr>
+						</tbody>
+						</table>
+					</div>	
+
+					<h2>Crear una vista simple</h2>
+					<p>Para crear una vista simple</p>
+					<pre><code class="language-bash">php gen.php app:v Hola</code></pre>
+					<p>Generaría el fichero <code>./app/templates/hola.twig</code> que tendrá escrito código HTML y TWIG.</p>
+					<p><code>NOTA:</code> si el fichero ya existe, no será reemplazado, por tanto no será creado por el generador.</p>
+					<p>La plantilla que utiliza el framework para escribir este código está en <code>./Ocrend/Kernel/Generator/Templates/Twig/blank.twig</code> cuyo contenido es:</p>
+<pre><code class="language-php">
+{{ "{% extends 'overall/layout' %}
+{% block appBody %}
+    ¡Hola Mundo!
+{% endblock %}"}}
+</code></pre>		
+				<p>Si adaptamos un poco dicha plantilla de acuerdo al diseño que tenga la aplicación, el resultado será asombroso.</p>		
+
+				<h2>Combinaciones de comandos</h2>
+				<p>El generador es muy flexible, y podemos combinar los tres comandos anteriores de una forma muy sencilla para obtener variados resultados, por ejemplo, para crear un MVC completo bastaría con escribir:</p>
+				<pre><code class="language-bash">php gen.php app:mvc Ejemplo</code></pre>
+				<p><code>NOTA:</code> si alguno de los ficheros  ya existe, no será reemplazado, por tanto no será creado por el generador.</p>
+				<p>No debemos memorizar los comandos, es sencillo, un controlador se representa con la "c", una vista con la "v" y un modelo con la "m", y <strong>sin importar el orden</strong>, cuando estén juntos, creará los tres, o sea que los siguientes comandos también serían válidos:</p>
+<pre><code class="language-bash">
+php gen.php app:mcv Ejemplo
+php gen.php app:vmc Ejemplo
+php gen.php app:vcm Ejemplo
+php gen.php app:cvm Ejemplo
+php gen.php app:cmv Ejemplo
+</code></pre>			
+				<p>El resultado de crear combinaciones no sólamente se ve reflejado en la cantidad de archivos creados, si no también, en el contenido de los mismos. Al crear MVC por ejemplo, en el contenido del controlador ya se renderiza la vista creada y se hace una instancia del modelo en un objeto, de ésta manera, ahorramos pequeños lapsos de tiempo en escribir código para conectar todo lo que el generador creó.</p>	
+				
+				<h3>Opciones para extender las combinaciones</h3>
+				<p>Además de las combinaciones posibles anteriores, si se añaden las siguientes opciones, que también pueden combinarse, se puede reducir de forma importante el tiempo de desarrollo para ciertas situaciones.</p>
+				<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Opción</th>
+								<th>Resultado obtenido</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nowarp"><code>-ajax</code></td>
+								<td>Escribe en <code>./app/http/post.php</code> y genera un fichero javascript, que conecta con ajax hacia esa ruta en la api rest utilizando una petición <code>POST</code>.<br />
+								<p>Generará un archivo en <code>./views/app/js/[nombre]/[nombre].js</code></p>
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>-api[verbo]</code></td>
+								<td>Escribe en <code>./app/http/[verbo].php</code> y genera un fichero javascript, que conecta con ajax hacia esa ruta en la api rest utilizando el verbo indicado.<br />
+								Los verbos aceptados son:
+								<ul>
+									<li><code>GET</code></li>
+									<li><code>POST</code></li>
+									<li><code>DELETE</code></li>
+									<li><code>PUT</code></li>
+								</ul>
+								<p>Generará un archivo en <code>./views/app/js/[nombre]/[nombre].js</code></p>
+								</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>-db</code></td>
+								<td>Si se acompaña con un modelo, éste nuevo modelo va a ser capaz de conectarse a la base de datos usando la característica <code>DBModel</code>.<br />
+								<code>NOTA:</code> Ésta opción siempre debe estar al final de la instrucción.</td>
+							</tr>
+							<tr>
+								<td class="nowarp"><code>-db [nombre_tabla] campo1:tipo:longitud</code></td>
+								<td>Crea una tabla en la base de datos que esté configurada por defecto en <code>Ocrend.ini.yml</code>, se debe proporcionar el nombre de la tabla y los campos.<br />
+								<ul>
+									<li><code>campo:tipo:longitud</code> representa la sintaxis para cada campo a crear, cada campo nuevo se debe separar con un espacio y continuar misma sintaxis.</li>
+									<li>Si el tipo de dato del campo no acepta longitud, por ejemplo <code>precio DOUBLE</code>, longitud queda como opcional y se debe expresar como <code>precio:double</code></li>
+								</ul>
+								<code>NOTA:</code> Ésta opción siempre debe estar al final de la instrucción ya que todo lo que esté después de <code>-db [nombre_tabla]</code> será interpretado como campos para la tabla.<br />
+								<code>NOTA 2:</code> Si la tabla ya existe no será creada. <br />
+								<code>NOTA 3:</code> La tabla se creará con un campo <code>id_[nombre_tabla] INT(11) PRIMARY KEY AUTOINCREMENT</code>, por lo que no se debe escribir entre los campos, alguno con el nombre de dicho id.
+								</td>
+								
+							</tr>
+						</tbody>
+						</table>
+				</div>	
+				<p>Para las opciones <code>-ajax</code> y <code>-api:[verbo]</code>, se toma el javascript de la plantilla ubicada en <code>./Ocrend/Kernel/Generator/Templates/ajax.js</code> cuyo contenido es:</p>
+<pre><code class="language-javascript">
+function {{ "{{view}}" }}(e){
+  $.ajax({
+    type : '{{ "{{method}}" }}',
+    url : 'api/{{ "{{rest}}" }}',
+    data : $('#{{ "{{view}}" }}_form').serialize(),
+    success : function(json) {
+      console.log(json.success);
+      console.log(json.message);
+      if(json.success == 1) {
+        setTimeout(function(){
+            location.reload();
+        },1000);
+      }
+    },
+    error : function(xhr, status) {
+      console.log('Ha ocurrido un problema.');
+    }
+  });
+}
+
+$('#{{ "{{view}}" }}').click(function(e) {
+  e.defaultPrevented;
+  {{view}}(e);
+});
+$('#{{ "{{view}}" }}_form').keypress(function(e) {
+    e.defaultPrevented;
+    if(e.which == 13) {
+        {{view}}(e);
+    }
+});
+</code></pre>
+	
+				<h3>Referencia de marcas</h3>	
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Marca</th>
+								<th>Interpretación del Generador</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>{{ "{{method}}" }}</code></td>
+								<td>Método del verbo HTTP</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{rest}}" }}</code></td>
+								<td>Ruta en la API REST</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{view}}" }}</code></td>
+								<td>Nombre de la vista desde donde se debe llamar</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>	
+
+				<h2>Crear un CRUD completo</h2>
+				<p>El CRUD representa una estructura MVC completa, donde el modelo tiene acciones para editar, agregar, borrar y listar una entidad de una tabla en la base de datos. Además, de tener un controlador que distribuye dichas acciones. También genera tres vistas, tabla con listado, formularios de agregar y editar, ambos formularios implementados con AJAX.<br />
+				Los campos representados en la tabla, e inputs en los formularios dependen de los campos creados para la tabla en la base de datos.</p>
+				<p>Para crear un crud</p>
+				<pre><code class="language-bash">php gen.php app:crud [Nombre] -db [nombre_tabla] [...campo:tipo:longitud...]</code></pre>
+				<p>Un ejemplo de crud completo sería</p>
+				<pre><code class="language-bash">php gen.php app:crud Clientes -db clientes nombre:varchar:30 apellido:varchar:30 edad:int:2 sexo:varchar:10 email:varchar:50</code></pre>
+				<p>Dicho comando realizará lo siguiente:</p>
+				<ul>
+					<li>Tabla <code>clientes</code> en la base de datos configurada en el fichero <code>Ocrend.ini.yml</code></li>
+					<li>Modelo en <code>./app/models/Clientes.php</code> con métodos comentados para manejar el CRUD.</li>
+					<li>Controlador en <code>./app/controllers/clientesController.php</code> que maneja las rutas para el CRUD.</li>
+					<li>Vista de listado en <code>./app/templates/clientes/clientes.twig</code> y se accede por la url desde <code>clientes/</code></li>
+					<li>Vista para crear en <code>./app/templates/clientes/crear.twig</code> y se accede por la url desde <code>clientes/crear/</code></li>
+					<li>Vista para editar en <code>./app/templates/clientes/editar.twig</code> y se accede por la url desde <code>clientes/editar/ID_CLIENTE</code></li>
+					<li>Ajax para forrmularios en <code>./views/app/js/clientes/</code> que conecta con la API REST, ésta al modelo, y da respuesta.</li>
+					<li>Escribe nuevas rutas POST en <code>./api/http/post.php</code> que invocan los métodos necesarios para el CRUD.</li>
+				</ul>
+				<p><code>NOTA:</code> si alguno de los ficheros ya existe, no será reemplazado, por tanto no será creado por el generador.</p>
+				<p><code>NOTA 2:</code> si se está usando el fichero <code>ajax.js</code> por defecto, los resultados se verán en consola de javascript (F12).</p>
+				<br />
+				<p>La plantilla que utiliza el framework para escribir este código de la vista que maneja el listado está en <code>./Ocrend/Kernel/Generator/Templates/Twig/table.twig</code> cuyo contenido es:</p>
+<pre><code class="language-php">
+{{ "{% extends 'overall/layout' %}
+{% block appBody %}
+    <div class=\"container\">
+        <div class=\"col-xs-12 col-md-12 col-lg-12\">
+            <table class=\"table table-bordered\">
+                <thead>
+{{thead}}
+                </thead>
+                <tbody>
+{{tbody}}
+                </tbody>
+            </table>
+        </div>
+        <div class=\"col-xs-12 col-md-12 col-lg-12\">
+            <a href=\"{{view}}/crear\" class=\"btn btn-primary\">+ Crear</a>
+        </div>
+    </div>
+{% endblock %}"|e }}
+</code></pre>		
+						<p>Si adaptamos un poco dicha plantilla de acuerdo al diseño que tenga la aplicación, el resultado será asombroso.</p>		
+						<h3>Referencia de marcas</h3>	
+						<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Marca</th>
+								<th>Interpretación del Generador</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>{{ "{{view}}" }}</code></td>
+								<td>Nombre de la vista que corresponde</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{thead}}" }}</code></td>
+								<td>Se sustituye por la cabecera de la tabla, toma elementos de:
+									<ul>
+										<li><code>./Ocrend/Kernel/Generator/Templates/Twig/Resources/thead.twig</code> donde <code>{{ "{{name}}" }}</code> representa el nombre del campo y tiene el diseño que representará cada <code>th</code>.</li>
+										<li><code>./Ocrend/Kernel/Generator/Templates/Twig/Resources/actions_title.twig</code> tiene el diseño de el <code>th</code> para las "Acciones"</li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{tbody}}" }}</code></td>
+								<td>Se sustituye por el contenido de la tabla, toma elementos de:
+									<ul>
+										<li><code>./Ocrend/Kernel/Generator/Templates/Twig/Resources/tbody.twig</code> donde <code>{{ "{{name}}" }}</code> representa la condificación en TWIG que será reemplazada para mostrar el valor del campo.</li>
+										<li><code>./Ocrend/Kernel/Generator/Templates/Twig/Resources/actions.twig</code> tiene el diseño de los botones de acción en la tabla.
+											<ul>
+												<li><code>{{ "{{view}}" }}</code> representa la url de acción del controlador</li>
+												<li><code>{{ "{{id_element}}" }}</code> será reemplazado por la etiqueta TWIG que representa el id del elemento</li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
+					<br />
+					<p>La plantilla que utiliza el framework para escribir este código de las vista que manejan los formularios está en <code>./Ocrend/Kernel/Generator/Templates/Twig/form.twig</code> cuyo contenido es:</p>
+<pre><code class="language-php">
+{{ "{% extends 'overall/layout' %}
+{% block appBody %}
+    <div class=\"container\">
+        <form role=\"form\" id=\"{{view}}_form\">
+{{hiddens}}
+{{inputs}}
+            <div class=\"form-group\">
+                <button type=\"button\" class=\"btn btn-primary\" id=\"{{view}}\">Enviar</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block appFooter %}
+    <script src=\"views/app/js/{{view}}/{{ajax_file_name}}.js\"></script>
+{% endblock %}"|e }}
+</code></pre>		
+						<p>Si adaptamos un poco dicha plantilla de acuerdo al diseño que tenga la aplicación, el resultado será asombroso.</p>		
+						
+						<h3>Referencia de marcas</h3>	
+						<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Marca</th>
+								<th>Interpretación del Generador</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>{{ "{{view}}" }}</code></td>
+								<td>Nombre de la vista que corresponde</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{ajax_file_name}}" }}</code></td>
+								<td>Nombre del fichero javascript que enviará la información del formulario vía AJAX al modelo</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{hiddens}}" }}</code></td>
+								<td>Se sustituye por campos de tipo <code>hidden</code> necesarios para la edición</td>
+							</tr>
+							<tr>
+								<td><code>{{ "{{inputs}}" }}</code></td>
+								<td>Se sustituye por los inputs de los campos creados en la tabla de la base de datos, se carga directamente desde <code>./Ocrend/Kernel/Generator/Templates/Twig/Resources/inputs.twig</code> donde:
+									<ul>
+										<li><code>{{ "{{label}}" }}</code> es el nombre del campo con la primera letra en mayúscula.</li>
+										<li><code>{{ "{{{{type_input}}}}" }}</code> representa el tipo de input.</li>
+										<li><code>{{ "{{name}}" }}</code> representa el nombre del campo.</li>
+										<li><code>{{ "{{value}}" }}</code> representa el valor que debe tener ese campo, en la edición se cambia por la etiqueta twig correspondiente.</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
+				
+				</section>
 			</article>
 		</div>
 	</main>
