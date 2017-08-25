@@ -5,8 +5,65 @@
 		{% include 'overall/menu' %}
 			<article class="col-md-9 col-sm-9 main-content" role="main">
 				<header>
-					{{ controller }}
+					<h1>API Rest con Silex</h1>
+					<p>La API Rest de Ocrend Framework está realizada con Silex, es un microframework desarrollado con PHP. Se basa en los mismos principios de Symfony y Pimple y está inspirado por el microframework Sinatra de Ruby.</p>
+					<ul>
+						<li><b>Conciso:</b> Silex proporciona una API concisa e intuitiva.</li>
+						<li><b>Extensible:</b> Silex dispone de un sistema de extensiones basado en el micro contenedor de servicios Pimple y que facilita el uso de librerías creadas por terceros.</li>
+						<li><b>Facil de testear:</b> Silex utiliza el componente HttpKernel de Symfony para abstraer el manejo de la petición HTTP y de su respuesta. Esto facilita mucho la creación de tests tanto para las aplicaciones como para el propio framework. Además, Silex respeta la filosofía de funcionamiento de la especificación HTTP y te ayuda a que tu también la sigas.</li>
+						<li>El funcionamiento básico de Silex consiste en definir controladores y asociarlos con rutas, todo en un solo paso.</li>
+					</ul>
 				</header>
+				<section>
+					<h2>Cómo utilizarlo</h2>
+					<p>La integración con Ocrend Framework está realizada por defecto, al configurar el framework para que funcione en un servidor, también lo estará la api rest.</p>
+					
+					<h3>Verbo <code>GET</code></h3>
+					<p>Añadir a <code>./api/http/get.php</code> lo siguiente:</p>
+					<pre><code class="language-php">
+$app->get('/mi/ruta/get', function() use($app) {
+
+    return $app->json(array('Esto funciona en GET'));
+    
+});			
+					</code></pre>
+
+					<h3>Verbo <code>POST</code></h3>
+					<p>Añadir a <code>./api/http/post.php</code> lo siguiente:</p>
+					<pre><code class="language-php">
+$app->post('/mi/ruta/post', function() use($app) {
+
+    return $app->json(array('Esto funciona en POST'));
+    
+});			
+					</code></pre>
+
+					<h3>Verbo <code>DELETE</code></h3>
+					<p>Añadir a <code>./api/http/delete.php</code> lo siguiente:</p>
+					<pre><code class="language-php">
+$app->delete('/mi/ruta/delete', function() use($app) {
+
+    return $app->json(array('Esto funciona en DELETE'));
+    
+});			
+					</code></pre>
+
+					<h3>Verbo <code>PUT</code></h3>
+					<p>Añadir a <code>./api/http/put.php</code> lo siguiente:</p>
+<pre><code class="language-php">
+$app->put('/mi/ruta/put', function() use($app) {
+
+    return $app->json(array('Esto funciona en PUT'));
+    
+});			
+					</code></pre>
+
+					<h2>Documentación extensa</h2>
+					<ul>
+						<li>Gracias a <strong>librosdelweb</strong>, hay una documentación extensa en español que se puede visitar aquí <a href="http://librosweb.es/libro/silex/" target="_blank">http://librosweb.es/libro/silex/</a></li>
+						<li>Video tutoriales con más información <a href="https://www.youtube.com/playlist?list=PLDQZoQpLCoUAlWmnF8-b4KUT3-lzXAn4i" target="_blank">youtube.com</a></li>
+					</ul>
+				</section>
 			</article>
 		</div>
 	</main>
